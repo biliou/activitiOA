@@ -34,8 +34,8 @@ public class UserController {
 		user.setPassword(password);
 		user.setAge(age);
 		
-		boolean result = userService.addUser(user);
-		model.addAttribute("result", result);
+		int result = userService.addUser(user);
+		model.addAttribute("id", result);
 		return new Response().success(model);
 	}
 	

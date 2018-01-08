@@ -18,7 +18,7 @@ public interface IUserService {
 	 * @param user
 	 * @return
 	 */
-	public boolean addUser(User user);
+	public int addUser(User user);
 	
 	/**
 	 * 删除个人明细

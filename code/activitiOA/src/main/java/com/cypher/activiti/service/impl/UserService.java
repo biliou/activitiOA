@@ -19,13 +19,10 @@ public class UserService implements IUserService{
 		return this.userMapper.getUserById(userId);
 	}
 
-	public boolean addUser(User user) {
-		int result = userMapper.addUser(user);
-		if(result>0) {
-			return true;
-		}else {
-			return false;
-		}
+	public int addUser(User user) {
+		userMapper.addUser(user);
+		int addId = user.getId();
+		return addId;
 	}
 
 	public boolean delUser(int userId) {
