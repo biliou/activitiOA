@@ -1,8 +1,5 @@
 package com.cypher.activiti.model;
 
-import javax.persistence.Entity;
-
-
 public class User {
 	private Integer id;
 
@@ -10,7 +7,7 @@ public class User {
 
 	private String password;
 
-	private String age;
+	private Integer age;
 
 	public Integer getId() {
 		return id;
@@ -36,11 +33,11 @@ public class User {
 		this.password = password == null ? null : password.trim();
 	}
 
-	public String getAge() {
+	public Integer getAge() {
 		return age;
 	}
 
-	public void setAge(String age) {
-		this.age = age == null ? null : age.trim();
+	public void setAge(Integer age) {
+		this.age = age;
 	}
 }
