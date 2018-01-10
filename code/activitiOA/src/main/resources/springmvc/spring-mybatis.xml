@@ -14,7 +14,14 @@
        http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/mvc 
        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-
+	
+	<!-- 自动扫描该包，除了controller类  -->
+	<context:component-scan base-package="com.cypher.activiti" >
+   		<!--过滤掉控制层的注解  -->
+   		<context:exclude-filter type="annotation" 
+   			expression="org.springframework.stereotype.Controller"/>
+   	</context:component-scan>
+	
 	<!-- 引入配置数据库文件 -->
 	<context:property-placeholder location="classpath:properties/jdbc.properties" />
 
@@ -30,11 +37,13 @@
 	<!--配置mybaits的SqlSessionFactory -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
+		<!-- mybatis 主配置 -->
 		<property name="configLocation" value="classpath:mybatis/mybatis-cfg.xml"></property>
 		<!-- 自动扫描mapping.xml文件 -->
 		<property name="mapperLocations" value="classpath:com/cypher/activiti/mapping/*.xml"></property>
 	</bean>
 	
+	<!-- 基于mapper动态代理实现的配置方式 -->
 	<!-- DAO接口所在包名，Spring会自动查找其下的类  -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!--如果有多个报路径,用逗号分开即可 -->
@@ -50,5 +59,4 @@
 
 	<!--开启事物注解驱动 -->
 	<tx:annotation-driven transaction-manager="txManager" />
-
 </beans>
