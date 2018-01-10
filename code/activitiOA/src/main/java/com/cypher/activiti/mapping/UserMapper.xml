@@ -5,22 +5,22 @@
 	  	<selectKey keyProperty="id" resultType="int" order="AFTER">
 	  		SELECT LAST_INSERT_ID() AS id 
 	  	</selectKey>
-	  	INSERT INTO USER (user_name,password,age) VALUES (#{userName},#{password},#{age});
+	  	INSERT INTO USER (user_name,password,age) VALUES (#{userName},#{password},#{age})
 	  </insert>
 	  
 	  <select id="getUserById" parameterType="int" resultType="user">
-	  	SELECT id,user_name,password,age FROM USER WHERE id = #{id};
+	  	SELECT id,user_name,password,age FROM USER WHERE id = #{id}
 	  </select>
 	  
 	  <delete id="delUser" parameterType="int">
-	  	DELETE FROM USER WHERE id=#{id}; 
+	  	DELETE FROM USER WHERE id=#{id} 
 	  </delete>
 	  
 	  <update id="updateUser" parameterType="user">
-	  	UPDATE USER SET user_name = #{userName} WHERE id=#{id};
+	  	UPDATE USER SET user_name = #{userName} WHERE id=#{id}
 	  </update>
 	  
 	  <select id="getUserList" resultType="user">
-	  	SELECT id,user_name,password,age FROM USER;
+	  	SELECT id,user_name,password,age FROM USER
 	  </select>
 </mapper>
