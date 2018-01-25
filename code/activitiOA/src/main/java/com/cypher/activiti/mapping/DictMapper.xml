@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cypher.activiti.dao.DictMapper">
+
+	<sql id="Base_Column_List">
+		id, value, label, type, description, sort, parent_id,
+		update_by,
+		update_date, remarks,
+		del_flag
+	</sql>
+
+	<!-- 使用原生的SQL进行分页 -->
+	<select id="selectAllDictInfoisPaged" resultType="dict">
+		SELECT
+		<include refid="Base_Column_List"></include>
+		FROM pm_sys_dict
+		<where>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="desp != null">
+				AND description like '%${desp}%'
+			</if>
+		</where>
+		LIMIT ${(pageNo-1)*pageSize}, #{pageSize}
+	</select>
+
+	<!-- 查询所有字典信息 -->
+	<select id="selectAllDictInfo" resultType="dict">
+		SELECT
+		<include refid="Base_Column_List"></include>
+		FROM pm_sys_dict
+		<where>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="desp != null">
+				AND description like '%${desp}%'
+			</if>
+		</where>
+	</select>
+
+	<!-- 获取所有字典类型 统计 -->
+	<select id="selectAllDictType" resultType="string">
+		SELECT distinct(type)
+		FROM pm_sys_dict
+	</select>
+
+	<!-- 通过id查询字典 -->
+	<select id="selectDictInfoById" resultType="dict">
+		SELECT
+		<include refid="Base_Column_List"></include>
+		FROM pm_sys_dict
+		WHERE id = #{dictId}
+	</select>
+
+	<!-- 删除一个字典信息 -->
+	<delete id="delDict" parameterType="long">
+		DELETE FROM pm_sys_dict WHERE
+		id = #{dictId}
+	</delete>
+
+	<!-- 修改字典 -->
+	<update id="updateDict" parameterType="dict">
+		UPDATE PM_SYS_DICT
+		<set>
+			<if test="value != null">
+				VALUE = #{value},
+			</if>
+			<if test="label != null">
+				LABEL = #{label},
+			</if>
+
+			<if test="type != null">
+				TYPE = #{type},
+			</if>
+			<if test="description != null">
+				DESCRIPTION = #{description},
+			</if>
+			<if test="sort != null">
+				SORT = #{sort},
+			</if>
+			<if test="parentId != null">
+				PARENT_ID = #{parentId},
+			</if>
+			<if test="updateBy != null">
+				UPDATE_BY = #{updateBy},
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE = #{updateDate},
+			</if>
+			<if test="remarks != null">
+				REMARKS = #{remarks},
+			</if>
+		</set>
+		WHERE ID = #{id}
+	</update>
+
+	<!-- 增加字典 -->
+	<insert id="addDict" parameterType="dict" useGeneratedKeys="true"
+		keyProperty="id">
+
+		INSERT INTO PM_SYS_DICT(VALUE,LABEL, TYPE ,DESCRIPTION ,SORT ,
+		PARENT_ID ,UPDATE_BY, UPDATE_DATE, REMARKS)
+		VALUES(#{value},#{label},#{type},#{description},#{sort},
+		#{parentId},#{updateBy},#{updateDate},#{remarks}
+		)
+	</insert>
+
+</mapper>

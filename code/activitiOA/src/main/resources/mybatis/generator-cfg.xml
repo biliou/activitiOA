@@ -1,44 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>    
 <!DOCTYPE generatorConfiguration    
   PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"    
-  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">    
-<generatorConfiguration>    
-    <!-- mysql-connector文件路径 -->  
-    <classPathEntry  location="E:\mysql5.6\mysql-connector-java-5.0.8.jar"/>    
-    <context id="MysqlTables"  targetRuntime="MyBatis3">    
-        <commentGenerator>    
-            <property name="suppressDate" value="true"/>
-            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
-            <property name="suppressAllComments" value="true"/>    
-        </commentGenerator>    
-        <!-- 链接配置 -->  
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver"   
-        connectionURL="jdbc:mysql://127.0.0.1:3306/activiti_oa"   
-        userId="root" password="123456">    
-        </jdbcConnection>    
-        <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和 
-            NUMERIC 类型解析为java.math.BigDecimal -->
-        <javaTypeResolver>    
-            <property name="forceBigDecimals" value="false"/>    
-        </javaTypeResolver>    
-        <!-- 生成实体类的路径，com.project.ssm.entity 这个路径可以自动生成，但是必须有src这个路径-->  
-        <javaModelGenerator targetPackage="com.cypher.activiti.model"   
-        targetProject=".\src\main\java">    
-            <property name="enableSubPackages" value="true"/>    
-            <property name="trimStrings" value="true"/>    
-        </javaModelGenerator>    
-       <!-- 生成mapper映射文件的路径，这个路径可以自动生成，但是必须有src这个路径-->  
-       <sqlMapGenerator targetPackage="com.cypher.activiti.mapping" targetProject=".\src\main\java">    
-            <property name="enableSubPackages" value="true"/>    
-        </sqlMapGenerator>    
-          
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.cypher.activiti.dao"   
-        targetProject=".\src\main\java">    
-            <property name="enableSubPackages" value="true"/>    
-        </javaClientGenerator>    
-         
-        <table tableName="user_t" domainObjectName="User" enableCountByExample="false"   
-              enableUpdateByExample="false" enableDeleteByExample="false"   
-              enableSelectByExample="false" selectByExampleQueryId="false"></table>  
-    </context>    
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<!-- mysql-connector文件路径 -->
+	<classPathEntry
+		location="E:\java 工具包\DB\数据库驱动包\mysql-connector-java-5.0.8-bin.jar" />
+	<context id="MysqlTables" targetRuntime="MyBatis3">
+		<commentGenerator>
+			<property name="suppressDate" value="true" />
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<!-- 链接配置 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/student_test" userId="root"
+			password="123456">
+		</jdbcConnection>
+		<!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 
+			和 NUMERIC 类型解析为java.math.BigDecimal -->
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+		<!-- 生成实体类的路径，com.project.ssm.entity 这个路径可以自动生成，但是必须有src这个路径 -->
+		<javaModelGenerator targetPackage="com.cypher.activiti.model"
+			targetProject=".\src\main\java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<!-- 生成mapper映射文件的路径，这个路径可以自动生成，但是必须有src这个路径 -->
+		<sqlMapGenerator targetPackage="com.cypher.activiti.mapping"
+			targetProject=".\src\main\java">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.cypher.activiti.dao" targetProject=".\src\main\java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		<!-- 表名和生成的实体名 -->
+		<!-- <table tableName="pm_sys_user" domainObjectName="User"></table> <table 
+			tableName="pm_sys_dept" domainObjectName="Dept"></table> -->
+		<!-- <table tableName="pm_sys_dict" domainObjectName="Dict"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false"></table> -->
+		<table tableName="pm_sys_menu" domainObjectName="Menu"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false"></table>
+	</context>
 </generatorConfiguration> 

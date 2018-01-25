@@ -1,7 +1,7 @@
 package com.cypher.activiti.core.restful;
 
 /**
- * 定义JSON响应结构 { "meta": { "success": true, "message": "ok" }, "data": ... }
+ * 定义JSON响应结构 { "meta": { "result": true, "message": "ok" }, "data": ... }
  */
 public class Response {
 	private static final String OK = "ok";
@@ -41,20 +41,20 @@ public class Response {
 
 	public class Meta {
 
-		private boolean success;
+		private boolean result;
 		private String message;
 
-		public Meta(boolean success) {
-			this.success = success;
+		public Meta(boolean result) {
+			this.result = result;
 		}
 
-		public Meta(boolean success, String message) {
-			this.success = success;
+		public Meta(boolean result, String message) {
+			this.result = result;
 			this.message = message;
 		}
 
-		public boolean isSuccess() {
-			return success;
+		public boolean isResponse() {
+			return result;
 		}
 
 		public String getMessage() {

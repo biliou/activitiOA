@@ -1,38 +1,32 @@
 package com.cypher.activiti.service;
 
-import java.util.List;
-
+import com.cypher.activiti.dto.UserDto;
 import com.cypher.activiti.model.User;
 
 public interface IUserService {
+	/**
+	 * 通过用户userId获取个人信息
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public UserDto getUserInfoById(Long userId);
 
 	/**
-	 * 获取个人明细
+	 * 保存个人信息
+	 * 
 	 * @param userId
 	 * @return
 	 */
-	public User getUserInfoById(int userId);
+	public boolean saveSelfUserInfo(User user);
 	
 	/**
-	 * 添加个人明细
-	 * @param user
-	 * @return
-	 */
-	public int addUser(User user);
-	
-	/**
-	 * 删除个人明细
+	 * 修改个人密码
+	 * 
 	 * @param userId
 	 * @return
 	 */
-	public boolean delUser(int userId);
-	
-	/**
-	 * 更新个人信息
-	 * @param user
-	 * @return
-	 */
-	public boolean updateUser(User user);
-	
-	public List<User> getUsersInfo();
+	public boolean saveChangePwd(long userId, String oldPassword, String newPassword);
+
+
 }

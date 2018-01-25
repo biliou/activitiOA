@@ -1,106 +1,108 @@
 package com.cypher.activiti.controller;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cypher.activiti.core.restful.Response;
+import com.cypher.activiti.dto.UserDto;
 import com.cypher.activiti.model.User;
 import com.cypher.activiti.service.IUserService;
+import com.cypher.activiti.service.impl.UserService;
 
 @Controller
 public class UserController {
-	
+
+	private static Logger logger = Logger.getLogger(UserController.class);
+
 	@Autowired
-	private IUserService userService;
-	
-	/**
-	 * 增加用户个人信息
-	 * @return
-	 */
-	@RequestMapping(value = "/user/{name}/{password}/{age}", method = RequestMethod.POST)
-	public @ResponseBody Response addUserInfo(Model model,@PathVariable(value="name") String name,
-			@PathVariable(value="password") String password,
-			@PathVariable(value="age") Integer age) {
-		User user = new User();
-		user.setUserName(name);
-		user.setPassword(password);
-		user.setAge(age);
-		
-		int result = userService.addUser(user);
-		model.addAttribute("id", result);
-		return new Response().success(model);
-	}
-	
-	/**
-	 * 获取个人信息
-	 * @param model
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public @ResponseBody Response getUserInfo(Model model , @PathVariable(value="id") Integer id) {
-		User user = userService.getUserInfoById(id);
-		model.addAttribute("user", user);
-		
-		return new Response().success(model);
+	public IUserService userService;
 
+	// 进入个人信息页
+	@RequestMapping(value = "/sysmg/user/gotoUserInfo")
+	public String gotoUserInfo() {
+		return "sysmg/user/userInfo";
 	}
-	
-	/**
-	 * 删除个人信息
-	 * @param model
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-	public @ResponseBody Response delUserInfo(Model model , @PathVariable(value="id") Integer id) {
-		boolean result = userService.delUser(id);
-		model.addAttribute("result", result);
-		
-		return new Response().success(model);
 
-	}
-	
-	/**
-	 * 通过id更新个人信息
-	 * @param model
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping(value = "/user/{id}/{name}", method = RequestMethod.PUT)
-	public @ResponseBody Response updateUserInfo(Model model , @PathVariable(value="id") Integer id
-			, @PathVariable(value="name") String name) {
-		
-		User user = new User();
-		user.setId(id);
-		user.setUserName(name);
-		
-		boolean result = userService.updateUser(user);
-		model.addAttribute("result", result);
-		
-		return new Response().success(model);
+	// 进入获取个人信息
+	@RequestMapping(value = "/sysmg/user", method = RequestMethod.GET)
+	public @ResponseBody UserDto getUserInfoById(HttpServletRequest request) {
 
-	}
-	
-	/**
-	 * 获取所有用户信息
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public @ResponseBody Response getUsersInfo(Model model) {
-		List<User> result = userService.getUsersInfo();
-		model.addAttribute("UserList", result);
-		
-		return new Response().success(model);
+		// 从session中获取用户id
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		long userId = user.getUserId();
 
+		// 请求Service层，得到UserDto对象
+		UserDto userDto = userService.getUserInfoById(userId);
+
+		logger.info("getUserInfoById");
+
+		return userDto;
 	}
+
+	// 进入保存个人信息
+	@RequestMapping(value = "/sysmg/user", method = RequestMethod.PUT)
+	public @ResponseBody Map<String, Object> saveSelfUserInfo(@RequestBody User user) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+
+		// 请求Service层，保存user对象
+		boolean result = userService.saveSelfUserInfo(user);
+
+		try {
+			if (result) {
+				resultMap.put("result", "修改用户信息成功");
+				logger.info(user.getUserId() + " 修改用户信息成功");
+			} else {
+				resultMap.put("result", "修改用户信息失败");
+				logger.error("修改用户信息失败");
+			}
+		} catch (Exception e) {
+			resultMap.put("result", "修改用户信息失败");
+			logger.error("修改用户信息失败", e);
+		}
+
+		return resultMap;
+	}
+
+	// 进入修改密码页
+	@RequestMapping(value = "/sysmg/user/gotoChangePwd")
+	public String gotoChangePwd() {
+		return "sysmg/user/changePwd";
+	}
+
+	// 修改密码
+	@RequestMapping(value = "/sysmg/user/pwd", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> saveChangePwd(HttpServletRequest request, String oldPassword,
+			String newPassword) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+
+		// 从session中获取用户id
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		long userId = user.getUserId();
+
+		// 请求Service层，修改密码
+		boolean result = userService.saveChangePwd(userId, oldPassword, newPassword);
+
+		if (result) {
+			resultMap.put("result", "修改用户密码成功");
+			logger.info(user.getUserId() + " 修改用户信息成功");
+		} else {
+			resultMap.put("result", "修改用户密码失败，请输入正确的旧密码");
+			logger.info(user.getUserId() + " 修改用户信息失败");
+		}
+
+		return resultMap;
+	}
+
 }

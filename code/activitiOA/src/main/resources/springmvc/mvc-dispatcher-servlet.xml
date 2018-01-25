@@ -16,23 +16,37 @@
        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 	<!--Spring的配置文件 -->
-	<!--开启spring组件扫描  -->
-   	<context:component-scan base-package="com.cypher.activiti" use-default-filters="false">
-   		<context:include-filter type="annotation" 
-   			expression="org.springframework.stereotype.Controller"/>
-   	</context:component-scan>
-   	
-   	<!-- 静态资源(js、image等)的访问 -->
-	<mvc:default-servlet-handler />
+	<!--开启spring组件扫描 -->
+	<context:component-scan base-package="com.cypher.activiti"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- 静态资源(js、image等)的访问 -->
+	<mvc:resources mapping="/jsAndCss/**" location="/jsAndCss/" />
 
 	<!-- 开启注解 -->
 	<mvc:annotation-driven />
-	
+
+	<!-- 拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<!--匹配所有请求 -->
+			<mvc:mapping path="/**" />
+			<!-- 排除拦截JS 和 CSS -->
+			<mvc:exclude-mapping path="/jsAndCss/**" />
+			<!--配置拦截器类 -->
+			<bean class="com.cypher.activiti.core.Interceptor.LoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
 	<!--ViewResolver 视图解析器 -->
 	<!--用于支持Servlet、JSP视图解析 -->
 	<!--关于controller如何找到视图文件,返回的字符串定义了所需访问的jsp的名字（如上面的index）, SpringMVC就会找到 
 		/WEB-INF/pages/xxx.jsp 文件 -->
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/pages/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
@@ -48,6 +62,11 @@
 		<!-- 内存中的最大值 -->
 		<property name="maxInMemorySize" value="40960" />
 	</bean>
-	
+
+	<!-- 配置hibernate-validator -->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+	</bean>
 
 </beans>

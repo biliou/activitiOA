@@ -22,6 +22,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<!-- <typeAlias type="com.tz.mybatis.sysmanage.entity.User" alias="user"/> -->
 		<!-- 批量定义别名 -->
 		<package name="com.cypher.activiti.model" />
+		<package name="com.cypher.activiti.dto" />
 	</typeAliases>
 
 	<!-- 配置pageHelper分页插件 -->
