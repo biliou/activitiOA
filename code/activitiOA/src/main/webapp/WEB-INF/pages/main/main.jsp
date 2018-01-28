@@ -350,7 +350,7 @@
 							<div id="collapse-3" class="accordion-body  collapse" style="height: 0px;">
 								<div class="accordion-inner">
 									<ul class="nav nav-list">
-										<li class=""><a data-href=".menu3-4" href="gotoMenuList" target="mainFrame"><i
+										<li class=""><a data-href=".menu3-4" href="${ctx}/sysmg/menu/gotoMenuList" target="mainFrame"><i
 												class="icon-list-alt"></i>&nbsp;菜单管理</a>
 											<ul class="nav nav-list hide" style="margin: 0; padding-right: 0;">
 											</ul></li>

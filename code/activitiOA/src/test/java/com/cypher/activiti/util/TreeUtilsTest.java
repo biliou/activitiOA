@@ -1,17 +1,18 @@
-package com.cypher.activiti.dao;
+package com.cypher.activiti.util;
 
-import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertThat;
+import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.alibaba.fastjson.JSON;
+import com.cypher.activiti.dao.MenuMapper;
 import com.cypher.activiti.model.Menu;
 
-public class TestMenuService {
+public class TreeUtilsTest {
 	private ApplicationContext ac = null;
 	private MenuMapper menuMapper = null;
 
@@ -22,10 +23,14 @@ public class TestMenuService {
 	}
 	
 	@Test
-	public void testSelectAllMenuInfo() {
+	public void testTreeUtilsForMenuList() {
 		List<Menu> menuList = menuMapper.selectAllMenuInfo();
-		int len = menuList.size();
-		assertThat( len, greaterThan(0));  
+
+		List<Menu> sortMenuList = new ArrayList<Menu>();
+		// 因为前台组件treeTable正常显示树形结构的数据,就必须让我们的列表按照树形的结构顺序摆放
+		TreeUtils.sortTreeList(sortMenuList, menuList, 0l);
+
 		System.out.println(JSON.toJSONString(menuList));
+		System.out.println(JSON.toJSONString(sortMenuList));
 	}
 }

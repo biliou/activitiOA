@@ -15,4 +15,76 @@
 		<include refid="Base_Column_List"></include>
 		FROM pm_sys_menu
 	</select>
+
+	<!-- 获取菜单信息 -->
+	<select id="getMenuInfo" parameterType="long" resultType="menu">
+		SELECT
+		<include refid="Base_Column_List"></include>
+		FROM pm_sys_menu
+		WHERE id = #{menuId}
+	</select>
+
+	<!-- 删除菜单信息 -->
+	<delete id="delMenu" parameterType="long">
+		DELETE FROM pm_sys_menu WHERE
+		id = #{menuId};
+	</delete>
+
+	<!-- 更新菜单信息 -->
+	<update id="updateMenu" parameterType="menu">
+		UPDATE pm_sys_menu
+		<set>
+			<if test="parentId != null">
+				parent_id = #{parentId},
+			</if>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="sort != null">
+				sort = #{sort},
+			</if>
+			<if test="href != null">
+				href = #{href},
+			</if>
+			<if test="target != null">
+				target = #{target},
+			</if>
+			<if test="icon != null">
+				icon = #{icon},
+			</if>
+			<if test="isShow != null">
+				is_show = #{isShow},
+			</if>
+			<if test="permission != null">
+				permission = #{permission},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate},
+			</if>
+			<if test="remarks != null">
+				remarks = #{remarks},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag},
+			</if>
+		</set>
+		WHERE id = #{id};
+	</update>
+	
+	<!-- 添加菜单信息 -->
+	<insert id="addMenu" parameterType="menu" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO PM_SYS_MENU(PARENT_ID,NAME,SORT,HREF,TARGET,ICON,
+   						IS_SHOW,PERMISSION,UPDATE_BY, UPDATE_DATE,REMARKS)
+		VALUES(#{parentId},#{name},#{sort},#{href},
+				#{target},#{icon},#{isShow},#{permission},
+				#{updateBy},#{updateDate},#{remarks})
+	</insert>
+	
+	<!--获取某个节点的子节点数目  -->
+	<select id="getChildCount" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM PM_SYS_MENU WHERE PARENT_ID = #{parentId};	
+	</select>
 </mapper>

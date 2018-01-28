@@ -13,10 +13,7 @@ import com.cypher.activiti.dto.UserDto;
  * @author bili.ou
  *
  */
-// @RunWith(JUnit4ClassRunner.class)
-// @ContextConfiguration(locations = {
-// "classpath:/springmvc/spring-mybatis.xml"})
-public class TestUserService {
+public class UserServiceTest {
 
 	private ApplicationContext ac = null;
 	private UserMapper userMapper = null;

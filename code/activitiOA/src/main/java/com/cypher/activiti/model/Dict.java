@@ -3,7 +3,7 @@ package com.cypher.activiti.model;
 import java.util.Date;
 
 public class Dict {
-    private Integer id;
+    private Long id;
 
     private String value;
 
@@ -25,11 +25,11 @@ public class Dict {
 
     private String delFlag;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

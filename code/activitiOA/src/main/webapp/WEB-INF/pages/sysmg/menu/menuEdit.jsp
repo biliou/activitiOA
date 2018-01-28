@@ -66,7 +66,7 @@
 		$(document).ready(function(){
 			//此地方要稍微注意下，考虑不将本身以及下级节点显示出来，怕选择错误，造成连环套
 			var menuId = $("#id").val();
-			$.get("${ctx}/sysmgr/menu/getParentMenuTreeData.action?menuId="+menuId,
+			$.get("${ctx}/sysmg/menu/getParentMenuTreeData?menuId="+menuId,
 					function(zNodes){
 						//初始化数结构
 						//var jsonObj= $.parseJSON(zNodes.jsonObj);
@@ -104,7 +104,7 @@
 					loading('正在提交，请稍等...');
 						$.ajax({
 						type:'post',//请求方式
-						url:'${ctx}/sysmgr/menu/saveMenu', 
+						url:'${ctx}/sysmg/menu/saveMenu', 
 						contentType :"application/json;charset=UTF-8",
 						dataType:'json', //返回数据的几种格式 xml html json text 等常用
 						//data传值的另外一种方式 form的序列化
@@ -113,7 +113,8 @@
 							//后台返回则关掉提示
 							top.$.jBox.closeTip();
 							alert(data.result);
-							history.go(-1);
+							//history.go(-1);
+							window.location.href="${ctx}/sysmg/menu/gotoMenuList"
 						}
 					});
 				},
@@ -132,7 +133,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/sysmgr/menu/gotoMenuList">菜单列表</a></li>
+		<li><a href="${ctx}/sysmg/menu/gotoMenuList">菜单列表</a></li>
 		<li class="active"><a href="javascript:void(0);">菜单
 			<c:choose>
 			   <c:when test="${editFlag==1}">添加

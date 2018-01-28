@@ -13,7 +13,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.alibaba.fastjson.JSON;
 import com.cypher.activiti.model.Dict;
 
-public class TestDictService {
+public class DictDaoTest {
 
 	private ApplicationContext ac = null;
 	private DictMapper dictMapper = null;
@@ -72,7 +72,7 @@ public class TestDictService {
 	@Test
 	public void testUpdateDict() {
 		Dict dict = new Dict();
-		dict.setId(121);
+		dict.setId(121L);
 		dict.setValue("11111");
 		dict.setLabel("1");
 		dict.setType("1");
