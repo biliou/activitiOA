@@ -18,7 +18,7 @@ public interface IMenuService {
 	 * @param menuId
 	 * @return
 	 */
-	public Menu getMenuInfo(long menuId);
+	public Menu getMenuById(long menuId);
 
 	/**
 	 * 删除菜单

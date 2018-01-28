@@ -22,7 +22,7 @@ public class MenuService implements IMenuService {
 	}
 
 	@Override
-	public Menu getMenuInfo(long menuId) {
+	public Menu getMenuById(long menuId) {
 		return menuMapper.getMenuInfo(menuId);
 	}
 

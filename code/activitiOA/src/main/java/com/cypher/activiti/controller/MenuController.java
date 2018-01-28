@@ -54,13 +54,23 @@ public class MenuController {
 
 	// 跳转菜单编辑
 	@RequestMapping(value = "/sysmg/menu/gotoMenuEdit")
-	public String gotoMenuEdit(@ModelAttribute("editFlag") Integer editFlag, Long menuId, Model model) {
-
+	public String gotoMenuEdit(@ModelAttribute("editFlag") Integer editFlag, Long parentId, Long menuId, Model model) {
+		// 修改页面
 		if (editFlag == 2) {
 			// 请求MenuService层，获取当前菜单
-			Menu menu = menuService.getMenuInfo(menuId);
+			Menu menu = menuService.getMenuById(menuId);
 
 			model.addAttribute("menu", menu);
+		}
+		// 增加页面
+		if (editFlag == 1) {
+			if (parentId != null) {
+				Menu parentMenu = menuService.getMenuById(parentId);
+				Menu menu = new Menu();
+				menu.setParentId(parentMenu.getId());
+				menu.setParentName(parentMenu.getName());
+				model.addAttribute("menu",menu);	
+			}
 		}
 		return "/sysmg/menu/menuEdit";
 	}
@@ -133,21 +143,21 @@ public class MenuController {
 		List<Long> removeIdList = new ArrayList<Long>();
 		if (menuId != null && menuId >= 0) {
 			removeIdList.add(menuId);
-			
+
 			TreeUtils.getAllChildrenIdList(treeList, removeIdList, menuId);
-		} 
+		}
 
 		// 去掉自己与自己的子节点
 		Iterator<TreeDto> treeIterator = treeList.iterator();
-		while(treeIterator.hasNext()) {
+		while (treeIterator.hasNext()) {
 			TreeDto treeDto = treeIterator.next();
-			for(Long removeId : removeIdList) {
-				if(removeId == treeDto.getId()) {
+			for (Long removeId : removeIdList) {
+				if (removeId == treeDto.getId()) {
 					treeIterator.remove();
 				}
 			}
 		}
-		
+
 		return treeList;
 	}
 
