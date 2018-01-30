@@ -37,6 +37,7 @@
 							//后台返回则关掉提示
 							top.$.jBox.closeTip();
 							alert(data.result);
+							
 						}
 					});
 				},

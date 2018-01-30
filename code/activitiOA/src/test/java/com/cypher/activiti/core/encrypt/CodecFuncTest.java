@@ -84,7 +84,6 @@ public class CodecFuncTest {
 			String pwd = new String(Hex.decodeHex(encodePwd.toCharArray()));
 			System.out.println("解密后:" + pwd);
 		} catch (DecoderException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

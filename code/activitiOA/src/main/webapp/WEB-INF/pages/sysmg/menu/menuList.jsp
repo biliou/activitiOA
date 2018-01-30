@@ -41,7 +41,7 @@
 		<li><a href="${ctx}/sysmg/menu/gotoMenuEdit?editFlag=1">菜单添加</a></li>
 	</ul>
 	 
-	<form id="menuListForm" method="post" action="${ctx}/sysmg/menu/gotoMenuList.action">
+	<form id="menuListForm" method="post" action="${ctx}/sysmg/menu/gotoMenuList">
 		<table id="treeTable" class="table table-striped table-bordered table-condensed hide">
 			<thead>
 				<tr>

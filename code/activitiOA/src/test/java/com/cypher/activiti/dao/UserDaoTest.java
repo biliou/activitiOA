@@ -13,7 +13,7 @@ import com.cypher.activiti.dto.UserDto;
  * @author bili.ou
  *
  */
-public class UserServiceTest {
+public class UserDaoTest {
 
 	private ApplicationContext ac = null;
 	private UserMapper userMapper = null;

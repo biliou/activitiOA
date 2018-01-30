@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.cypher.activiti.model.Dict;
 import com.cypher.activiti.model.User;
 import com.cypher.activiti.service.IDictService;

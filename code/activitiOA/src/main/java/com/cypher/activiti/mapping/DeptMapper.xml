@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cypher.activiti.dao.DeptMapper">
+	<resultMap id="BaseResultMap" type="com.cypher.activiti.model.Dept">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="parent_id" property="parentId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sort" property="sort" jdbcType="DECIMAL" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="master" property="master" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="fax" property="fax" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="del_flag" property="delFlag" jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, parent_id, name, sort, code, address, master, phone,
+		fax, email,
+		update_by, update_date,
+		remarks, del_flag
+	</sql>
+
+	<!-- 获取部门所有信息 -->
+	<select id="getAllDeptInfo" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from pm_sys_dept
+	</select>
+
+	<!-- 通过id获取部门信息 -->
+	<select id="getDeptInfoById" parameterType="long" resultType="dept">
+		select
+		<include refid="Base_Column_List" />
+		from pm_sys_dept
+		WHERE id = #{deptId}
+	</select>
+
+	<!-- 删除部门 -->
+	<delete id="delDept" parameterType="long">
+		DELETE FROM pm_sys_dept WHERE
+		id = #{deptId}
+	</delete>
+
+	<!-- 获取子节点个数 -->
+	<select id="getChildrenCount" parameterType="long" resultType="int">
+		select count(*) from pm_sys_dept
+		WHERE parent_id = #{parentId}
+	</select>
+
+	<!-- 添加部门 -->
+	<insert id="addDept" parameterType="dept">
+		<selectKey keyProperty="id" resultType="long" order="AFTER">
+			SELECT
+			LAST_INSERT_ID() as id
+		</selectKey>
+		INSERT INTO PM_SYS_DEPT(PARENT_ID,NAME,SORT,CODE,
+		ADDRESS,MASTER,PHONE,FAX,EMAIL,
+		UPDATE_BY, UPDATE_DATE,REMARKS)
+		VALUES(#{parentId},#{name},#{sort},#{code},
+		#{address},#{master},#{phone},#{fax},#{email},
+		#{updateBy},#{updateDate},#{remarks})
+	</insert>
+	
+	<!-- 修改部门 -->
+	<update id="updateDept" parameterType="dept">
+		UPDATE PM_SYS_DEPT  
+		<set> 				
+			<if test="parentId != null">
+	            PARENT_ID = #{parentId},
+	        </if>
+	        <if test="name != null">
+	            NAME = #{name},
+	        </if>	   
+	        <if test="sort != null">
+	            SORT = #{sort},
+	        </if>
+	        <if test="code != null">
+	            CODE = #{code},
+	        </if>	         
+ 	        <if test="master != null">
+	            ADDRESS = #{master},
+	        </if>
+	        <if test="master != null">
+	            MASTER = #{master},
+	        </if>	   
+	        <if test="phone != null">
+	            PHONE = #{phone},
+	        </if>
+	        <if test="fax != null">
+	            FAX = #{fax},
+	        </if>
+	        
+	        <if test="email != null">
+	            EMAIL = #{email},
+	        </if>	        
+	        <if test="updateBy != null">
+	            UPDATE_BY = #{updateBy},
+	        </if>
+	        <if test="updateDate != null">
+	            UPDATE_DATE = #{updateDate},
+	        </if>
+	        <if test="remarks != null">
+	            REMARKS = #{remarks},
+	        </if>		 
+		</set>
+		WHERE ID = #{id}
+	</update>
+</mapper>

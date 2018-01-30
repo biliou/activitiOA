@@ -33,12 +33,13 @@ public class TreeUtils {
 	 * @param menuList
 	 * @param parentId
 	 * 
-	 *            1:轮询待排序列表,找到当前父节点的下一级某个节点 2:将当前节点放入指定的列表 3:轮询待排序列表,找到当前菜单 4:重复
-	 *            1,2,3 5:break;
 	 */
 	public static <T> void sortTreeList(List<T> sortTreeList, List<T> treeList, Long parentId) {
 		/**
-		 * 1:轮询待排序列表,找到当前父节点的下一级某个节点 2:将当前节点放入指定的列表 3:轮询待排序列表,找到当前菜单 4:重复 1,2,3 5:break;
+		 * 1:轮询待排序列表,找到当前父节点的下一级某个节点</br>
+		 * 2:将当前节点放入指定的列表 </br>
+		 * 3:轮询待排序列表,找到当前菜单 </br>
+		 * 4:重复 1,2,3 5:break;
 		 */
 		/*
 		 * for(int i = 0; i<treeList.size();i++){ TreeDto m = (TreeDto) treeList.get(i);
@@ -69,6 +70,7 @@ public class TreeUtils {
 
 	/**
 	 * 获取指定父节点下面的所有子节点(儿子,孙子)
+	 * 
 	 * @param treeList
 	 * @param removeIdList
 	 * @param parentId

@@ -114,7 +114,7 @@
 							top.$.jBox.closeTip();
 							alert(data.result);
 							//history.go(-1);
-							window.location.href="${ctx}/sysmg/menu/gotoMenuList"
+							window.location.href="${ctx}/sysmg/menu/gotoMenuList";
 						}
 					});
 				},

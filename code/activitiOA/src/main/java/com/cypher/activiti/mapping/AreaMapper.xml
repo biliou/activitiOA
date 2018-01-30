@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cypher.activiti.dao.AreaMapper">
+	<resultMap id="BaseResultMap" type="area">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="parent_id" property="parentId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sort" property="sort" jdbcType="DECIMAL" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="del_flag" property="delFlag" jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, parent_id, name, sort, code, create_by, create_date,
+		update_by,
+		update_date,
+		remarks, del_flag
+	</sql>
+
+	<!-- 获取所有区域信息 -->
+	<select id="getAllAreaInfo" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"></include>
+		FROM pm_sys_area
+	</select>
+
+	<!-- 通过id获取区域信息 -->
+	<select id="getAreaById" parameterType="long" resultType="area">
+		SELECT
+		<include refid="Base_Column_List"></include>
+		FROM pm_sys_area
+		WHERE id = #{areaId}
+	</select>
+
+	<!-- 删除区域 -->
+	<delete id="delArea" parameterType="long">
+		DELETE FROM pm_sys_area WHERE
+		id = #{areaId};
+	</delete>
+
+	<!-- 获取某个节点的子节点数目 -->
+	<select id="getChildrenCount" parameterType="long" resultType="int">
+		SELECT count(*) FROM pm_sys_area WHERE parent_id = #{parentId};
+	</select>
+
+	<!-- 添加区域 -->
+	<insert id="addArea" parameterType="area">
+		<selectKey keyProperty="id" resultType="long" order="AFTER">
+			SELECT
+			LAST_INSERT_ID() as id
+		</selectKey>
+		INSERT INTO pm_sys_area
+		(parent_id, name, sort, code,create_by,
+		create_date, update_by,update_date, remarks)
+		values
+		(#{parentId},#{name},#{sort},#{code},#{createBy},
+		#{createDate},#{updateBy},#{updateDate},#{remarks});
+
+	</insert>
+
+	<!-- 修改区域 -->
+	<update id="updateArea" parameterType="area">
+		UPDATE pm_sys_area
+		<set>
+			<if test="parentId != null">
+				parent_id = #{parentId},
+			</if>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="sort != null">
+				sort = #{sort},
+			</if>
+			<if test="code != null">
+				code = #{code},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate},
+			</if>
+			<if test="remarks != null">
+				remarks = #{remarks},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<!-- 查询某区域下的子节点 (自关联) -->
+	<resultMap type="area" id="childAreaResultMap">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="parent_id" property="parentId" />
+
+		<!-- collection ：用于一对多那个多的映射 property ：Area对象里面新加的关联集合对象的属性名称 ofType : 
+			属性的类型（部门本身对象） -->
+		<collection property="chileAreaList" ofType="area">
+			<id column="CHILD_ID" property="id" />
+			<result column="CHILD_NAME" property="name" />
+			<result column="CHILD_PID" property="parentId" />
+		</collection>
+	</resultMap>
+
+
+	<select id="getChildByPidResultMap" parameterType="long"
+		resultMap="childAreaResultMap">
+		SELECT A.id,A.parent_id,A.name,B.id CHILD_ID,B.parent_id
+		CHILD_PID,B.name CHILD_NAME
+		FROM pm_sys_area A ,pm_sys_area B WHERE
+		A.id=B.parent_id AND A.id = #{areaId};
+	</select>
+
+	<!-- 查询某区域下的所有子节点 (自关联) -->
+	<resultMap id="SubAreaResult" type="areaTree" extends="BaseResultMap">
+		<collection property="chileAreaList" javaType="java.util.ArrayList"
+			column="id" ofType="area" select="selectChild"></collection>
+	</resultMap>
+
+	<resultMap id="AreaTreeResult" type="areaTree" extends="SubAreaResult">
+		<collection property="chileAreaList" javaType="java.util.ArrayList"
+			column="id" ofType="area" select="selectChild"></collection>
+	</resultMap>
+
+	<select id="GetAllChildByPidResultMap" resultMap="AreaTreeResult">
+		SELECT id, parent_id, name FROM pm_sys_area
+		WHERE parent_id = 0
+	</select>
+
+	<select id="selectChild" resultMap="SubAreaResult">
+		SELECT id, parent_id, name 
+		FROM pm_sys_area
+		WHERE parent_id = #{id}
+	</select>
+</mapper>
