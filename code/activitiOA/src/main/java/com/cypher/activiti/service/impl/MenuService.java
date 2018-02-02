@@ -50,4 +50,9 @@ public class MenuService implements IMenuService {
 		return menuMapper.getChildCount(menuId);
 	}
 
+	@Override
+	public List<Menu> getMenuListByUserId(Long menuId) {
+		return menuMapper.getMenuListByUserId(menuId);
+	}
+
 }

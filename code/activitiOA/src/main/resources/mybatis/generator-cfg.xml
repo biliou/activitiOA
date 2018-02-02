@@ -39,20 +39,39 @@
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		<!-- 表名和生成的实体名 -->
+		<!-- 个人信息表结构 -->
 		<!-- <table tableName="pm_sys_user" domainObjectName="User"></table> <table 
 			tableName="pm_sys_dept" domainObjectName="Dept"></table> -->
+		<!-- 字典表结构 -->
 		<!-- <table tableName="pm_sys_dict" domainObjectName="Dict" enableCountByExample="false" 
-		enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
-		selectByExampleQueryId="false"></table> -->
-		<!-- <table tableName="pm_sys_menu" domainObjectName="Menu"
+			enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+			selectByExampleQueryId="false"></table> -->
+		<!-- 菜单表结构 -->
+		<!-- <table tableName="pm_sys_menu" domainObjectName="Menu" enableCountByExample="false" 
+			enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+			selectByExampleQueryId="false"></table> -->
+		<!-- 区域表结构 -->
+		<!-- <table tableName="pm_sys_area" domainObjectName="Area" enableCountByExample="false" 
+			enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+			selectByExampleQueryId="false"></table> -->
+		<!-- 部门表结构 -->
+		<!-- <table tableName="pm_sys_dept" domainObjectName="Dept" enableCountByExample="false" 
+			enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+			selectByExampleQueryId="false"></table> -->
+		<!-- 角色管理表结构 -->
+		 <table tableName="pm_sys_role" domainObjectName="Role"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false"></table> -->
-		<!-- <table tableName="pm_sys_area" domainObjectName="Area"
+			selectByExampleQueryId="false"></table>
+		<table tableName="pm_sys_role_area" domainObjectName="RoleToArea"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false"></table> -->
-			<table tableName="pm_sys_dept" domainObjectName="Dept"
+			selectByExampleQueryId="false"></table>
+		<table tableName="pm_sys_role_dept" domainObjectName="RoleToDept"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false"></table>
+		<table tableName="pm_sys_role_menu" domainObjectName="RoleToMenu"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false"></table>

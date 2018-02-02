@@ -71,20 +71,20 @@ public class DeptController {
 
 	// 修改 和添加
 	@RequestMapping(value = "/sysmg/dept/saveDept", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> saveDept(@RequestBody Dept dept,HttpServletRequest request) {
+	public @ResponseBody Map<String, Object> saveDept(@RequestBody Dept dept, HttpServletRequest request) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		
-		//获取用户id
+
+		// 获取用户id
 		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
-		
+		User user = (User) session.getAttribute("user");
+
 		try {
 			// 修改
 			if (dept != null && dept.getId() != null) {
 				deptService.updateDept(dept, user.getUserId());
 				resultMap.put("result", "修改部门信息成功");
 			} else {// 添加
-				deptService.addDept(dept,user.getUserId());
+				deptService.addDept(dept, user.getUserId());
 				resultMap.put("result", "添加部门信息成功");
 			}
 		} catch (Exception e) {
@@ -159,6 +159,21 @@ public class DeptController {
 			}
 		}
 
+		return treeList;
+	}
+
+	// 获取所有部门树
+	@RequestMapping("/sysmg/dept/getAllDeptList")
+	public @ResponseBody List<TreeDto> getAllDeptList() {
+		List<TreeDto> treeList = new ArrayList<TreeDto>();
+		List<Dept> deptList = this.deptService.getAllDeptInfo();
+		for (Dept dept : deptList) {
+			TreeDto tree = new TreeDto();
+			tree.setId(dept.getId());
+			tree.setName(dept.getName());
+			tree.setParentId(dept.getParentId());
+			treeList.add(tree);
+		}
 		return treeList;
 	}
 

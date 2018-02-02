@@ -38,8 +38,6 @@ public class AreaService implements IAreaService {
 
 	@Override
 	public boolean addArea(Area area,Long userId) {
-		area.setCreateBy(userId.toString());
-		area.setCreateDate(new Date());
 		area.setUpdateBy(userId.toString());
 		area.setUpdateDate(new Date());
 		return areaMapper.addArea(area);

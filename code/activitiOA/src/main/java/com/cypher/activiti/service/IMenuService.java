@@ -44,11 +44,20 @@ public interface IMenuService {
 	 * @return
 	 */
 	public boolean addMenu(Menu menu, String menuName);
-	
+
 	/**
 	 * 获取某个节点的子节点数目,用于删除的特殊判断
+	 * 
 	 * @param menuId
 	 * @return
 	 */
 	public Integer getChildCount(Long menuId);
+
+	/**
+	 * 查询用户权限控制内的所有菜单
+	 * 
+	 * @param menuId
+	 * @return
+	 */
+	public List<Menu> getMenuListByUserId(Long menuId);
 }

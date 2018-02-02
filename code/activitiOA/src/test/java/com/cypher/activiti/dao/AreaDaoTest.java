@@ -72,8 +72,6 @@ public class AreaDaoTest {
 		area.setName("test");
 		area.setParentId(0L);
 		area.setSort(20L);
-		area.setCreateBy("1");
-		area.setCreateDate(new Date());
 		area.setUpdateBy("1");
 		area.setUpdateDate(new Date());
 		boolean result = areaMapper.addArea(area);
@@ -92,8 +90,6 @@ public class AreaDaoTest {
 		area.setName("test");
 		area.setParentId(0L);
 		area.setSort(20L);
-		area.setCreateBy("1");
-		area.setCreateDate(new Date());
 		area.setUpdateBy("1");
 		area.setUpdateDate(new Date());
 		boolean result = areaMapper.updateArea(area);

@@ -73,18 +73,31 @@
 		</set>
 		WHERE id = #{id};
 	</update>
-	
+
 	<!-- 添加菜单信息 -->
-	<insert id="addMenu" parameterType="menu" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO PM_SYS_MENU(PARENT_ID,NAME,SORT,HREF,TARGET,ICON,
-   						IS_SHOW,PERMISSION,UPDATE_BY, UPDATE_DATE,REMARKS)
+	<insert id="addMenu" parameterType="menu" useGeneratedKeys="true"
+		keyProperty="id">
+		INSERT INTO
+		PM_SYS_MENU(PARENT_ID,NAME,SORT,HREF,TARGET,ICON,
+		IS_SHOW,PERMISSION,UPDATE_BY, UPDATE_DATE,REMARKS)
 		VALUES(#{parentId},#{name},#{sort},#{href},
-				#{target},#{icon},#{isShow},#{permission},
-				#{updateBy},#{updateDate},#{remarks})
+		#{target},#{icon},#{isShow},#{permission},
+		#{updateBy},#{updateDate},#{remarks})
 	</insert>
-	
-	<!--获取某个节点的子节点数目  -->
-	<select id="getChildCount" parameterType="java.lang.Long" resultType="java.lang.Integer">
-		SELECT COUNT(*) FROM PM_SYS_MENU WHERE PARENT_ID = #{parentId};	
+
+	<!--获取某个节点的子节点数目 -->
+	<select id="getChildCount" parameterType="java.lang.Long"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM PM_SYS_MENU WHERE PARENT_ID =
+		#{parentId};
+	</select>
+
+	<!-- 查询用户权限控制内的所有菜单 -->
+	<select id="getMenuListByUserId" parameterType="long"
+		resultType="menu">
+		SELECT DISTINCT C.ID,C.PARENT_ID,C.NAME,
+		C.SORT,C.HREF,C.TARGET,C.ICON,C.IS_SHOW,C.PERMISSION
+		FROM PM_SYS_USER_ROLE A ,PM_SYS_ROLE_MENU B ,PM_SYS_MENU C
+		WHERE A.USER_ID= #{userId} AND A.ROLE_ID = B.ROLE_ID AND B.MENU_ID = C.ID
 	</select>
 </mapper>

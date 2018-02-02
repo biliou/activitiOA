@@ -7,15 +7,13 @@
 		<result column="name" property="name" jdbcType="VARCHAR" />
 		<result column="sort" property="sort" jdbcType="DECIMAL" />
 		<result column="code" property="code" jdbcType="VARCHAR" />
-		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
-		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
 		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
 		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
 		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
 		<result column="del_flag" property="delFlag" jdbcType="CHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, parent_id, name, sort, code, create_by, create_date,
+		id, parent_id, name, sort, code, 
 		update_by,
 		update_date,
 		remarks, del_flag
@@ -54,11 +52,9 @@
 			LAST_INSERT_ID() as id
 		</selectKey>
 		INSERT INTO pm_sys_area
-		(parent_id, name, sort, code,create_by,
-		create_date, update_by,update_date, remarks)
+		(parent_id, name, sort, code, update_by,update_date, remarks)
 		values
-		(#{parentId},#{name},#{sort},#{code},#{createBy},
-		#{createDate},#{updateBy},#{updateDate},#{remarks});
+		(#{parentId},#{name},#{sort},#{code},#{updateBy},#{updateDate},#{remarks});
 
 	</insert>
 

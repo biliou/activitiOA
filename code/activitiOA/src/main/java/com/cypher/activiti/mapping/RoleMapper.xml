@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cypher.activiti.dao.RoleMapper">
+
+	<sql id="Base_Column_List">
+		id, name, update_by, update_date, remarks, del_flag
+	</sql>
+
+	<!-- 获取所有角色信息 -->
+	<select id="getAllRoleInfo" resultType="role">
+		SELECT
+		<include refid="Base_Column_List"></include>
+		FROM pm_sys_role
+	</select>
+
+	<!--根据角色id查询角色信息 -->
+	<select id="getRoleById" parameterType="long" resultType="role">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM PM_SYS_ROLE
+		WHERE ID = #{id}
+	</select>
+
+	<!--根据角色id查询角色菜单对应关系 -->
+	<select id="getMenuListByRoleId" parameterType="long"
+		resultType="roleToMenu">
+		SELECT ROLE_ID , MENU_ID
+		FROM PM_SYS_ROLE_MENU
+		WHERE ROLE_ID
+		= #{roleId}
+	</select>
+
+	<!--根据角色id查询角色部门对应关系 -->
+	<select id="getDeptListByRoleId" parameterType="long"
+		resultType="roleToDept">
+		SELECT ROLE_ID ,DEPT_ID
+		FROM PM_SYS_ROLE_DEPT
+		WHERE ROLE_ID =
+		#{roleId}
+	</select>
+
+	<!--根据角色id查询角色区域对应关系 -->
+	<select id="getAreaListByRoleId" parameterType="long"
+		resultType="roleToArea">
+		SELECT ROLE_ID ,AREA_ID
+		FROM PM_SYS_ROLE_AREA
+		WHERE ROLE_ID =
+		#{roleId}
+	</select>
+
+	<!-- 删除角色 -->
+	<delete id="delRole" parameterType="long">
+		delete FROM pm_sys_role where
+		id=#{roleId};
+	</delete>
+
+	<!-- 删除角色菜单关联信息 -->
+	<delete id="delRoleToMenu" parameterType="long">
+		delete FROM
+		pm_sys_role_menu where
+		role_id=#{roleId};
+	</delete>
+
+	<!-- 删除角色部门关联信息 -->
+	<delete id="delRoleToDept" parameterType="long">
+		delete FROM
+		pm_sys_role_dept where
+		role_id=#{roleId};
+	</delete>
+
+	<!-- 删除角色区域关联信息 -->
+	<delete id="delRoleToArea" parameterType="long">
+		delete FROM
+		pm_sys_role_area where
+		role_id=#{roleId};
+	</delete>
+
+	<!--增加角色对象 -->
+	<insert id="addRole" parameterType="role">
+		<selectKey keyProperty="id" resultType="long" order="AFTER">
+			SELECT
+			LAST_INSERT_ID() as id
+		</selectKey>
+
+		INSERT INTO PM_SYS_ROLE(NAME,UPDATE_BY, UPDATE_DATE,REMARKS)
+		VALUES(#{name},#{updateBy},#{updateDate},#{remarks})
+	</insert>
+
+	<!-- 批量插入角色菜单对应信息 -->
+	<!-- SQL: INSERT INTO pm_sys_role_menu (role_id,menu_id) VALUES (25,2), 
+		(25,3),(25,4) -->
+	<insert id="addRoleToMenuBatch" parameterType="RoleToMenu">
+		INSERT INTO
+		pm_sys_role_menu (role_id,menu_id) VALUES
+		<foreach collection="list" item="roleToMenu" index="index"
+			separator=",">
+			(#{roleToMenu.roleId},#{roleToMenu.menuId})
+		</foreach>
+	</insert>
+
+	<!--批量 增加角色部门对应关系 -->
+	<insert id="addRoleToDeptBatch" parameterType="roleToDept">
+		INSERT INTO PM_SYS_ROLE_DEPT(ROLE_ID,DEPT_ID)
+		VALUES
+		<foreach collection="list" item="roleToDept" index="index"
+			separator=",">
+			(#{roleToDept.roleId},#{roleToDept.deptId})
+		</foreach>
+	</insert>
+
+	<!--批量 增加角色区域对应关系 -->
+	<insert id="addRoleToAreaBatch" parameterType="roleToArea">
+		INSERT INTO PM_SYS_ROLE_AREA(ROLE_ID,AREA_ID)
+		VALUES
+		<foreach collection="list" item="roleToArea" index="index"
+			separator=",">
+			(#{roleToArea.roleId},#{roleToArea.areaId})
+		</foreach>
+	</insert>
+
+	<!-- 查找在roleIdList中的角色信息 -->
+	<select id="getRoleInfoByRoleIdList" parameterType="java.util.List"
+		resultType="role">
+		SELECT * FROM pm_sys_role where id in
+		<foreach collection="list" item="item" separator="," open="("
+			close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<!-- 修改角色信息 -->
+	<update id="updateRole" parameterType="role">
+		UPDATE pm_sys_role
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate},
+			</if>
+			<if test="remarks != null">
+				remarks = #{remarks},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<!-- 根据用户id查询用户所拥有的角色 -->
+	<select id="getUserRoleByUserId" parameterType="long"
+		resultType="userToRole">
+		SELECT USER_ID,ROLE_ID FROM PM_SYS_USER_ROLE WHERE
+		USER_ID=#{userId}
+	</select>
+
+	<!-- 删除用户拥有的角色信息 -->
+	<delete id="delUserRoleByUserId">
+		DELETE FROM pm_sys_user_role WHERE USER_ID=#{userId}
+	</delete>
+
+	<!-- 批量增加用户拥有的角色信息 -->
+	<insert id="addUserRole" parameterType="userToRole">
+		INSERT INTO pm_sys_user_role(USER_ID,ROLE_ID)
+		VALUES
+		<foreach collection="list" item="roleToArea" index="index"
+			separator=",">
+			(#{roleToArea.userId},#{roleToArea.roleId})
+		</foreach>
+	</insert>
+
+
+</mapper>

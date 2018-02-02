@@ -11,8 +11,6 @@ public class Area extends TreeDto {
 	private String parentName;
 	private Long sort;
 	private String code;
-	private String createBy;
-	private Date createDate;
 	private String updateBy;
 	private Date updateDate;
 	private String remarks;
@@ -49,22 +47,6 @@ public class Area extends TreeDto {
 
 	public void setCode(String code) {
 		this.code = code == null ? null : code.trim();
-	}
-
-	public String getCreateBy() {
-		return createBy;
-	}
-
-	public void setCreateBy(String createBy) {
-		this.createBy = createBy == null ? null : createBy.trim();
-	}
-
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
 	}
 
 	public String getUpdateBy() {
