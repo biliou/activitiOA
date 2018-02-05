@@ -140,6 +140,9 @@ public class UserDaoTest {
 		String newPwd = "1234";
 		String oldPwd = userTest.getPassword();
 		userMapper.updatePwd(userTest.getUserId(), newPwd);
+		userList = userMapper.getUserList(user);
+		User updateUser = userList.get(0);
+		assertEquals(updateUser.getPassword(), newPwd);
 		assertNotEquals(oldPwd, newPwd);
 
 		// 删除测试用户
