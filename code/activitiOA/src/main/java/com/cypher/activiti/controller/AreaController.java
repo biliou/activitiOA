@@ -66,7 +66,7 @@ public class AreaController {
 		}
 		// 增加
 		if (editFlag == 1) {
-			// 将当前节点的菜单信息作为添加节点的父节点
+			// 将当前节点的区域信息作为添加节点的父节点
 			if (parentId != null) {
 				Area area = new Area();
 				Area parentArea = areaService.getAreaById(parentId);
@@ -109,30 +109,30 @@ public class AreaController {
 	@RequestMapping(value = "/sysmg/area/delArea/{areaId}", method = RequestMethod.DELETE)
 	public @ResponseBody Map<String, Object> delArea(@PathVariable Long areaId) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		if (areaId == null) {
-			resultMap.put("result", "未输入删除的区域id");
-			return resultMap;
-		}
-
-		// 对于树形结构的数据,我们在删除的时候要注意 ,必须确保无子节点才可以直接删除,否则要给出提示
-		if (areaService.getChildrenCount(areaId) > 0) {
-			resultMap.put("result", "此区域下面还有子区域,请确定删除所有的子区域后再进行此操作");
-			return resultMap;
-		}
-
-		try {
-			boolean result = areaService.delArea(areaId);
-
-			if (result) {
-				resultMap.put("result", "删除区域成功");
-			} else {
-				resultMap.put("result", "删除区域失败");
-				logger.warn("删除区域失败");
+		if (areaId != null) {
+			// 对于树形结构的数据,我们在删除的时候要注意 ,必须确保无子节点才可以直接删除,否则要给出提示
+			if (areaService.getChildrenCount(areaId) > 0) {
+				resultMap.put("result", "此区域下面还有子区域,请确定删除所有的子区域后再进行此操作");
+				return resultMap;
 			}
 
-		} catch (Exception e) {
-			resultMap.put("result", "删除区域失败");
-			logger.warn("删除区域失败", e);
+			try {
+				boolean result = areaService.delArea(areaId);
+
+				if (result) {
+					resultMap.put("result", "删除区域成功");
+				} else {
+					resultMap.put("result", "删除区域失败");
+					logger.warn("删除区域失败");
+				}
+
+			} catch (Exception e) {
+				resultMap.put("result", "删除区域失败");
+				logger.warn("删除区域失败", e);
+			}
+			
+		}else {
+			resultMap.put("result", "未输入删除的区域id");
 		}
 
 		return resultMap;

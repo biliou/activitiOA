@@ -17,6 +17,7 @@
 		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
 		<result column="del_flag" property="delFlag" jdbcType="CHAR" />
 	</resultMap>
+	<!-- 所有字段 SQL片段 -->
 	<sql id="Base_Column_List">
 		id, parent_id, name, sort, code, address, master, phone,
 		fax, email,
@@ -64,48 +65,48 @@
 		#{address},#{master},#{phone},#{fax},#{email},
 		#{updateBy},#{updateDate},#{remarks})
 	</insert>
-	
+
 	<!-- 修改部门 -->
 	<update id="updateDept" parameterType="dept">
-		UPDATE PM_SYS_DEPT  
-		<set> 				
+		UPDATE PM_SYS_DEPT
+		<set>
 			<if test="parentId != null">
-	            PARENT_ID = #{parentId},
-	        </if>
-	        <if test="name != null">
-	            NAME = #{name},
-	        </if>	   
-	        <if test="sort != null">
-	            SORT = #{sort},
-	        </if>
-	        <if test="code != null">
-	            CODE = #{code},
-	        </if>	         
- 	        <if test="master != null">
-	            ADDRESS = #{master},
-	        </if>
-	        <if test="master != null">
-	            MASTER = #{master},
-	        </if>	   
-	        <if test="phone != null">
-	            PHONE = #{phone},
-	        </if>
-	        <if test="fax != null">
-	            FAX = #{fax},
-	        </if>
-	        
-	        <if test="email != null">
-	            EMAIL = #{email},
-	        </if>	        
-	        <if test="updateBy != null">
-	            UPDATE_BY = #{updateBy},
-	        </if>
-	        <if test="updateDate != null">
-	            UPDATE_DATE = #{updateDate},
-	        </if>
-	        <if test="remarks != null">
-	            REMARKS = #{remarks},
-	        </if>		 
+				PARENT_ID = #{parentId},
+			</if>
+			<if test="name != null">
+				NAME = #{name},
+			</if>
+			<if test="sort != null">
+				SORT = #{sort},
+			</if>
+			<if test="code != null">
+				CODE = #{code},
+			</if>
+			<if test="master != null">
+				ADDRESS = #{master},
+			</if>
+			<if test="master != null">
+				MASTER = #{master},
+			</if>
+			<if test="phone != null">
+				PHONE = #{phone},
+			</if>
+			<if test="fax != null">
+				FAX = #{fax},
+			</if>
+
+			<if test="email != null">
+				EMAIL = #{email},
+			</if>
+			<if test="updateBy != null">
+				UPDATE_BY = #{updateBy},
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE = #{updateDate},
+			</if>
+			<if test="remarks != null">
+				REMARKS = #{remarks},
+			</if>
 		</set>
 		WHERE ID = #{id}
 	</update>

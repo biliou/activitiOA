@@ -4,6 +4,12 @@ import java.util.List;
 
 import com.cypher.activiti.model.Dept;
 
+/**
+ * 部门管理的业务层接口
+ *
+ * @author Administrator
+ *
+ */
 public interface IDeptService {
 
 	/**
@@ -40,7 +46,9 @@ public interface IDeptService {
 	/**
 	 * 添加部门
 	 * 
-	 * @param parentId
+	 * @param dept
+	 * @param userId
+	 *            修改者的用户id
 	 * @return
 	 */
 	public boolean addDept(Dept dept, Long userId);
@@ -50,6 +58,7 @@ public interface IDeptService {
 	 * 
 	 * @param dept
 	 * @param userId
+	 *            修改者的用户id
 	 * @return
 	 */
 	public boolean updateDept(Dept dept, Long userId);

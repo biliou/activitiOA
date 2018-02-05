@@ -26,6 +26,12 @@ import com.cypher.activiti.model.User;
 import com.cypher.activiti.service.IDeptService;
 import com.cypher.activiti.util.TreeUtils;
 
+/**
+ * 用于部门管理的Controller
+ * 
+ * @author Administrator
+ *
+ */
 @Controller
 public class DeptController {
 
@@ -49,8 +55,8 @@ public class DeptController {
 	public String gotoDeptEdit(@ModelAttribute("editFlag") Integer editFlag, Long deptId, Long parentId, Model model) {
 		// 添加
 		if (editFlag == 1) {
+			// 将当前节点的部门信息作为添加节点的父节点
 			if (parentId != null) {
-				System.out.println(parentId);
 				Dept parentDept = deptService.getDeptInfoById(parentId);
 				Dept dept = new Dept();
 				dept.setParentId(parentDept.getId());
