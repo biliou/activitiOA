@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cypher.activiti.dao.RoleMapper">
-
+	<!-- 所有字段 sql片段 -->
 	<sql id="Base_Column_List">
 		id, name, update_by, update_date, remarks, del_flag
 	</sql>

@@ -8,6 +8,12 @@ import com.cypher.activiti.model.RoleToArea;
 import com.cypher.activiti.model.RoleToDept;
 import com.cypher.activiti.model.RoleToMenu;
 
+/**
+ * 角色管理业务接口
+ * 
+ * @author Administrator
+ *
+ */
 public interface IRoleService {
 	/**
 	 * 获取所有角色信息

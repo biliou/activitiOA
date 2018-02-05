@@ -32,6 +32,12 @@ import com.cypher.activiti.service.IDeptService;
 import com.cypher.activiti.service.IMenuService;
 import com.cypher.activiti.service.IRoleService;
 
+/**
+ * 用于角色管理的Controller
+ * 
+ * @author Administrator
+ *
+ */
 @Controller
 public class RoleController {
 

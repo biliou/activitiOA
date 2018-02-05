@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cypher.activiti.dao.RoleMapper;
 import com.cypher.activiti.dto.RoleDto;
-import com.cypher.activiti.model.Menu;
 import com.cypher.activiti.model.Role;
 import com.cypher.activiti.model.RoleToArea;
 import com.cypher.activiti.model.RoleToDept;
