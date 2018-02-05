@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cypher.activiti.dao.UserMapper">
-	<!-- 所有字符 sql片段 -->
+	<!-- 所有字段 sql片段 -->
 	<sql id="Base_Column_List">
 		USER_ID,DEPT_ID,LOGIN_NAME,PASSWORD,
 		USER_NO,USER_NAME,EMAIL,PHONE,MOBILE,
