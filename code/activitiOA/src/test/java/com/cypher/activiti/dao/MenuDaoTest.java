@@ -79,7 +79,7 @@ public class MenuDaoTest {
 		assertEquals(result.getHref(), menuTest.getHref());
 		assertEquals(result.getParentId(), menuTest.getParentId());
 
-		// 删除测试用户
+		// 删除测试菜单
 		menuMapper.delMenu(result.getId());
 
 		// 查看是否存在一个tester
@@ -113,7 +113,7 @@ public class MenuDaoTest {
 		assertEquals(updateMenu.getHref(), newHref);
 		assertEquals(updateMenu.getParentId(), newParentId);
 
-		// 删除测试用户
+		// 删除测试菜单
 		menuMapper.delMenu(updateMenu.getId());
 
 		// 查看是否存在一个tester
@@ -135,7 +135,7 @@ public class MenuDaoTest {
 		assertEquals(result.getHref(), menuTest.getHref());
 		assertEquals(result.getParentId(), menuTest.getParentId());
 
-		// 删除测试用户
+		// 删除测试菜单
 		menuMapper.delMenu(result.getId());
 
 		// 查看是否存在一个tester

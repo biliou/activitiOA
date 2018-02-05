@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import com.alibaba.fastjson.JSON;
 import com.cypher.activiti.model.Dict;
 
 /**
@@ -161,7 +160,7 @@ public class DictDaoTest {
 		assertEquals(dictList.size(), 1);
 		assertNotEquals(result.getId(), null);
 
-		// 删除测试用户
+		// 删除测试字典
 		dictMapper.delDict(result.getId());
 		// 查看是否存在一个tester
 		dictList = dictMapper.selectAllDictInfo("test type", null);
@@ -195,7 +194,7 @@ public class DictDaoTest {
 		assertEquals(updateDict.getDescription(), newDesp);
 		assertEquals(updateDict.getType(), newType);
 
-		// 删除测试用户
+		// 删除测试字典
 		dictMapper.delDict(updateDict.getId());
 		// 查看是否存在一个tester
 		dictList = dictMapper.selectAllDictInfo("test type2", null);
@@ -215,7 +214,7 @@ public class DictDaoTest {
 		assertEquals(dictList.size(), 1);
 		assertNotEquals(result.getId(), null);
 
-		// 删除测试用户
+		// 删除测试字典
 		dictMapper.delDict(result.getId());
 		// 查看是否存在一个tester
 		dictList = dictMapper.selectAllDictInfo("test type", null);

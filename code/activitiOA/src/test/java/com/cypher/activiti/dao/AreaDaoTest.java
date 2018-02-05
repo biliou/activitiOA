@@ -2,10 +2,7 @@ package com.cypher.activiti.dao;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Date;
 import java.util.List;
 
@@ -14,11 +11,15 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.alibaba.fastjson.JSON;
 import com.cypher.activiti.model.Area;
 import com.cypher.activiti.model.AreaTree;
-import com.cypher.activiti.model.Dept;
 
+/**
+ * 测试区域功能Dao接口
+ * 
+ * @author Administrator
+ *
+ */
 public class AreaDaoTest {
 
 	private ApplicationContext ac = null;
@@ -30,88 +31,142 @@ public class AreaDaoTest {
 		areaMapper = (AreaMapper) ac.getBean("areaMapper");
 	}
 
-	// 测试获取所有区域信息
+	public Area initTestArea() {
+		Area areaTest = new Area();
+		areaTest.setName("test");
+		areaTest.setParentId(0L);
+		areaTest.setSort(20L);
+		areaTest.setUpdateBy("1");
+		areaTest.setUpdateDate(new Date());
+		return areaTest;
+	}
+
+	/**
+	 * 测试获取所有区域信息
+	 */
 	@Test
 	public void testGetAllAreaInfo() {
 		List<Area> areaList = areaMapper.getAllAreaInfo();
-		System.out.println(JSON.toJSONString(areaList));
 		int len = areaList.size();
 		assertThat(len, greaterThan(0));
+		assertEquals(len, 1);
 	}
 
-	// 测试通过id获取区域信息
+	/**
+	 * 测试通过id获取区域信息
+	 */
 	@Test
 	public void testGetAreaById() {
 		Area area = areaMapper.getAreaById(1L);
-		System.out.println(JSON.toJSONString(area));
+		Long areaId = 0L;
 		assertEquals(area.getName(), "中国");
+		assertEquals(area.getCode(), "086");
+		assertEquals(area.getParentId(), areaId);
 	}
 
-	// 测试删除区域信息
+	/**
+	 * 测试删除区域信息
+	 */
 	@Test
 	public void testDelArea() {
-		// TODO: 未添加然后删除
-		Long areaId = 15L;
-		boolean result = areaMapper.delArea(areaId);
-		System.out.println("删除成功");
-		Area area = areaMapper.getAreaById(areaId);
-		assertEquals(area, null);
+		// 添加一个tester
+		Area areaTest = initTestArea();
+		areaMapper.addArea(areaTest);
+		Area result = areaMapper.getAreaById(areaTest.getId());
+		assertEquals(result.getName(), areaTest.getName());
+		assertEquals(result.getParentId(), result.getParentId());
+
+		// 删除测试区域
+		areaMapper.delArea(result.getId());
+
+		// 查看是否存在一个tester
+		result = areaMapper.getAreaById(result.getId());
+		assertEquals(result, null);
+
 	}
 
-	// 测试获取所有子节点个数
+	/**
+	 * 测试获取所有子节点个数
+	 */
 	@Test
 	public void testGetChildrenCount() {
 		int count = areaMapper.getChildrenCount(1L);
-		assertEquals(count, 2);
+		assertEquals(count, 0);
 	}
 
-	// 测试添加区域
+	/**
+	 * 测试添加区域
+	 */
 	@Test
 	public void testInsertArea() {
-		Area area = new Area();
-		area.setName("test");
-		area.setParentId(0L);
-		area.setSort(20L);
-		area.setUpdateBy("1");
-		area.setUpdateDate(new Date());
-		boolean result = areaMapper.addArea(area);
-		System.out.println(area.getId());
-		Area addArea = areaMapper.getAreaById(area.getId());
-		assertEquals(addArea.getName(), area.getName());
+		// 添加一个tester
+		Area areaTest = initTestArea();
+		areaMapper.addArea(areaTest);
+		Area result = areaMapper.getAreaById(areaTest.getId());
+		assertEquals(result.getName(), areaTest.getName());
+		assertEquals(result.getParentId(), result.getParentId());
+
+		// 删除测试区域
+		areaMapper.delArea(result.getId());
+
+		// 查看是否存在一个tester
+		result = areaMapper.getAreaById(result.getId());
+		assertEquals(result, null);
 	}
 
-	// 测试修改区域
+	/**
+	 *  测试修改区域
+	 */
 	@Test
 	public void testUpdateArea() {
-		Long updateAreaId = 15L;
-		Area oldArea = areaMapper.getAreaById(updateAreaId);
-		Area area = new Area();
-		area.setId(updateAreaId);
-		area.setName("test");
-		area.setParentId(0L);
-		area.setSort(20L);
-		area.setUpdateBy("1");
-		area.setUpdateDate(new Date());
-		boolean result = areaMapper.updateArea(area);
-		System.out.println(updateAreaId);
-		Area updateArea = areaMapper.getAreaById(area.getId());
-		System.out.println("oldName = " + oldArea.getName());
-		System.out.println("updateName = " + updateArea.getName());
-		assertNotEquals(oldArea.getName(), updateArea.getName());
+		// 添加一个tester
+		Area areaTest = initTestArea();
+		areaMapper.addArea(areaTest);
+		Area result = areaMapper.getAreaById(areaTest.getId());
+		assertEquals(result.getName(), areaTest.getName());
+		assertEquals(result.getParentId(), result.getParentId());
+
+		// 更新区域Name，parentId，code
+		String newName = "test2";
+		Long newParentId = 1L;
+		String newCode = "010";
+		areaTest.setName(newName);
+		areaTest.setParentId(newParentId);
+		areaTest.setCode(newCode);
+		areaMapper.updateArea(areaTest);
+		Area updateArea = areaMapper.getAreaById(areaTest.getId());
+		assertEquals(updateArea.getName(), newName);
+		assertEquals(updateArea.getCode(), newCode);
+		assertEquals(updateArea.getParentId(), newParentId);
+
+		// 删除测试区域
+		areaMapper.delArea(updateArea.getId());
+		
+		// 查看是否存在一个tester
+		result = areaMapper.getAreaById(areaTest.getId());
+		assertEquals(result, null);
+		
 	}
 
-	// 测试查询某部门下的子节点 (自关联)
+	/**
+	 *  测试查询某部门下的子节点 (自关联)
+	 */
 	@Test
 	public void testGetChildByPidResultMap() {
 		Area area = areaMapper.getChildByPidResultMap(1L);
-		System.out.println(JSON.toJSONString(area));
-
+		assertEquals(area, null);
 	}
 
-	// 测试查询某部门下的所有子节点 (自关联)
+	/**
+	 *  测试查询某部门下的所有子节点 (自关联)
+	 */
 	@Test
 	public void testGetAllChildByPidResultMap() {
-		AreaTree area = areaMapper.GetAllChildByPidResultMap();
-		System.out.println(JSON.toJSONString(area));
+		AreaTree areaTree = areaMapper.GetAllChildByPidResultMap();
+//		System.out.println(JSON.toJSONString(areaTree));
+		Long areaId = 0L;
+		assertEquals(areaTree.getChileAreaList().size(), 0);
+		assertEquals(areaTree.getName(), "中国");
+		assertEquals(areaTree.getParentId(), areaId);
 	}
 }

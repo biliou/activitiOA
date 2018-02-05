@@ -113,7 +113,11 @@ public class MenuController {
 	@RequestMapping(value = "/sysmg/menu/delMenu/{menuId}", method = RequestMethod.DELETE)
 	public @ResponseBody Map<String, Object> delMenu(@PathVariable Long menuId) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-
+		if (menuId == null) {
+			resultMap.put("result", "未输入删除的菜单id");
+			return resultMap;
+		}
+		
 		// 对于树形结构的数据,我们在删除的时候要注意 ,必须确保无子节点才可以直接删除,否则要给出提示
 		if (menuService.getChildCount(menuId).intValue() > 0) {
 			resultMap.put("result", "此菜单下面还有子菜单,请确定删除所有的子菜单后再进行此操作");

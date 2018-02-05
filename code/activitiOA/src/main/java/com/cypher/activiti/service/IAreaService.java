@@ -6,6 +6,13 @@ import org.springframework.stereotype.Service;
 
 import com.cypher.activiti.model.Area;
 
+/**
+ * 区域管理的业务层接口
+ * 
+ * @author Administrator
+ *
+ */
+@Service
 public interface IAreaService {
 
 	/**
@@ -18,6 +25,7 @@ public interface IAreaService {
 	/**
 	 * 通过id获取区域信息
 	 * 
+	 * @param areaId
 	 * @return
 	 */
 	public Area getAreaById(Long areaId);
@@ -39,15 +47,21 @@ public interface IAreaService {
 
 	/**
 	 * 添加区域
+	 * 
 	 * @param area
+	 * @param userId
+	 *            修改者用户id
 	 * @return
 	 */
-	public boolean addArea(Area area,Long userId);
-	
+	public boolean addArea(Area area, Long userId);
+
 	/**
 	 * 修改区域
+	 * 
 	 * @param area
+	 * @param userId
+	 *            修改者用户id
 	 * @return
 	 */
-	public boolean updateArea(Area area,Long userId);
+	public boolean updateArea(Area area, Long userId);
 }

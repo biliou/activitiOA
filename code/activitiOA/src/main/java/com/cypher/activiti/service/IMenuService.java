@@ -4,6 +4,12 @@ import java.util.List;
 
 import com.cypher.activiti.model.Menu;
 
+/**
+ * 菜单管理的业务层接口
+ * 
+ * @author Administrator
+ *
+ */
 public interface IMenuService {
 	/**
 	 * 查询所有菜单列表

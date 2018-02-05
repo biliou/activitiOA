@@ -5,6 +5,12 @@ import java.util.List;
 import com.cypher.activiti.model.Dict;
 import com.github.pagehelper.PageInfo;
 
+/**
+ * 字典管理的业务层接口
+ * 
+ * @author Administrator
+ *
+ */
 public interface IDictService {
 	/**
 	 * 获取所有字典类型

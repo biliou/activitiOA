@@ -26,6 +26,12 @@ import com.cypher.activiti.model.User;
 import com.cypher.activiti.service.IAreaService;
 import com.cypher.activiti.util.TreeUtils;
 
+/**
+ * 用于区域管理的Controller
+ * 
+ * @author Administrator
+ *
+ */
 @Controller
 public class AreaController {
 
@@ -55,14 +61,12 @@ public class AreaController {
 		// 修改
 		if (editFlag == 2) {
 			Area area = areaService.getAreaById(areaId);
-			Area parentArea = areaService.getAreaById(area.getParentId());
-//			area.setParentId(parentArea.getId());
-//			area.setParentName(parentArea.getName());
 
 			model.addAttribute("area", area);
 		}
 		// 增加
 		if (editFlag == 1) {
+			// 将当前节点的菜单信息作为添加节点的父节点
 			if (parentId != null) {
 				Area area = new Area();
 				Area parentArea = areaService.getAreaById(parentId);
@@ -84,10 +88,12 @@ public class AreaController {
 		User user = (User) session.getAttribute("user");
 
 		try {
-			if (area.getId() == null) { // 添加
+			if (area.getId() == null) { 
+				// 添加
 				areaService.addArea(area, user.getUserId());
 				resultMap.put("result", "添加区域成功");
-			} else {// 修改
+			} else {
+				// 修改
 				areaService.updateArea(area, user.getUserId());
 				resultMap.put("result", "修改区域成功");
 			}
@@ -103,7 +109,7 @@ public class AreaController {
 	@RequestMapping(value = "/sysmg/area/delArea/{areaId}", method = RequestMethod.DELETE)
 	public @ResponseBody Map<String, Object> delArea(@PathVariable Long areaId) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		if(areaId ==null) {
+		if (areaId == null) {
 			resultMap.put("result", "未输入删除的区域id");
 			return resultMap;
 		}
@@ -113,7 +119,6 @@ public class AreaController {
 			resultMap.put("result", "此区域下面还有子区域,请确定删除所有的子区域后再进行此操作");
 			return resultMap;
 		}
-
 
 		try {
 			boolean result = areaService.delArea(areaId);

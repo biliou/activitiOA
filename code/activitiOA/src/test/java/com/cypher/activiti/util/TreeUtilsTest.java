@@ -24,7 +24,7 @@ public class TreeUtilsTest {
 	
 	@Test
 	public void testTreeUtilsForMenuList() {
-		List<Menu> menuList = menuMapper.selectAllMenuInfo();
+		List<Menu> menuList = menuMapper.getAllMenuInfo();
 
 		List<Menu> sortMenuList = new ArrayList<Menu>();
 		// 因为前台组件treeTable正常显示树形结构的数据,就必须让我们的列表按照树形的结构顺序摆放
