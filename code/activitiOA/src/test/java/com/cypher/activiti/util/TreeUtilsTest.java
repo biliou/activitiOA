@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -22,7 +23,7 @@ public class TreeUtilsTest {
 		menuMapper = (MenuMapper) ac.getBean("menuMapper");
 	}
 	
-	@Test
+	@Ignore
 	public void testTreeUtilsForMenuList() {
 		List<Menu> menuList = menuMapper.getAllMenuInfo();
 

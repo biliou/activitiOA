@@ -4,6 +4,7 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -17,7 +18,7 @@ public class CodecFuncTest {
 	/**
 	 * 不可逆运算：MD5 78a86b7b8efc37c75c46affadc989b1c
 	 */
-	@Test
+	@Ignore
 	public void TestMD5() {
 		System.out.println("==============MD5================");
 		String pwd = "jinggujin1";
@@ -29,7 +30,7 @@ public class CodecFuncTest {
 	/**
 	 * 不可逆运算：SHA1 28af42a448752a760ac2fce0af54116a58dfd991
 	 */
-	@Test
+	@Ignore
 	public void TestSHA1() {
 		System.out.println("==============SHA1================");
 		String pwd = "jinggujin1";
@@ -41,7 +42,7 @@ public class CodecFuncTest {
 	/**
 	 * 可逆运算：Base64 jinggujin1 加密
 	 */
-	@Test
+	@Ignore
 	public void TestEncodeBase64() {
 		System.out.println("==============Base64==Encode==============");
 		String pwd = "jinggujin1";
@@ -53,7 +54,7 @@ public class CodecFuncTest {
 	/**
 	 * 可逆运算：Base64 amluZ2d1amluMQ== 解密
 	 */
-	@Test
+	@Ignore
 	public void TestDecodeBase64() {
 		System.out.println("==============Base64==Decode==============");
 		String encodePwd = "amluZ2d1amluMQ==";
@@ -64,7 +65,7 @@ public class CodecFuncTest {
 	/**
 	 * 可逆运算：HEX jinggujin1 加密
 	 */
-	@Test
+	@Ignore
 	public void TestEncodeHEX() {
 		System.out.println("==============HEX==Encode==============");
 		String pwd = "jinggujin1";
@@ -76,7 +77,7 @@ public class CodecFuncTest {
 	/**
 	 * 可逆运算：HEX 6a696e6767756a696e31 解密
 	 */
-	@Test
+	@Ignore
 	public void TestDecodeHEX() {
 		System.out.println("==============HEX==Decode==============");
 		String encodePwd = "6a696e6767756a696e31";

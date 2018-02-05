@@ -1,13 +1,5 @@
 package com.cypher.activiti.core.encrypt;
 
-import static org.junit.Assert.assertEquals;
-
-import java.security.SecureRandom;
-import java.util.Random;
-
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
-
 import com.cypher.activiti.util.EncryptUtil;
 
 /**

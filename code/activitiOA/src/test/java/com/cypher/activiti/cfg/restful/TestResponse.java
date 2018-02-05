@@ -1,5 +1,6 @@
 package com.cypher.activiti.cfg.restful;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
@@ -9,7 +10,7 @@ public class TestResponse {
 	/**
 	 * 输出：{"meta":{"message":"success","success":true}}
 	 */
-	@Test
+	@Ignore
 	public void TestSuccessFunc() {
 		System.out.println(JSON.toJSONString((new Response().success())));
 	}
@@ -17,7 +18,7 @@ public class TestResponse {
 	/**
 	 * 输出：{"data":"aaa","meta":{"message":"success","success":true}}
 	 */
-	@Test
+	@Ignore
 	public void TestSuccessFuncWithData() {
 		System.out.println(JSON.toJSONString(new Response().success("aaa")));
 	}
@@ -25,7 +26,7 @@ public class TestResponse {
 	/**
 	 * 输出：{"meta":{"message":"success","success":true}}
 	 */
-	@Test
+	@Ignore
 	public void TestFailureFunc() {
 		System.out.println(JSON.toJSONString((new Response().failure())));
 	}
@@ -33,7 +34,7 @@ public class TestResponse {
 	/**
 	 * 输出：{"meta":{"message":"aaa","success":false}}
 	 */
-	@Test
+	@Ignore
 	public void TestFailureFuncWithData() {
 		Response aResponse = new Response().failure("aaa");
 		System.out.println(JSON.toJSONString(aResponse));

@@ -26,10 +26,6 @@ import com.cypher.activiti.service.impl.UserService;
 		"classpath:springmvc/spring-mybatis.xml" })
 public class TestUserService {
 
-	// private ApplicationContext ac = null;
-
-	// private UserService userService = null;
-
 	private User userTest;
 	private User userAdmin;
 
@@ -41,9 +37,6 @@ public class TestUserService {
 
 	@Before
 	public void before() {
-		// ac = new ClassPathXmlApplicationContext("/springmvc/spring-mybatis.xml");
-		// userMapper = (UserMapper) ac.getBean("userMapper");
-		// userService = (UserService) ac.getBean("userService");
 
 		// 初始化测试数据
 		initAdminUser();

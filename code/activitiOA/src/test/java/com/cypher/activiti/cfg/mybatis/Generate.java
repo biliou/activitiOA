@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.xml.ConfigurationParser;
@@ -24,6 +25,7 @@ public class Generate {
 		myBatisGenerator.generate(null);
 	}
 
+	@Ignore
 	public static void main(String[] args) throws Exception {
 		try {
 			Generate generatorSqlmap = new Generate();
