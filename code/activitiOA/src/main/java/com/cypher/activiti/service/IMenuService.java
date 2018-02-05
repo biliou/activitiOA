@@ -13,7 +13,7 @@ public interface IMenuService {
 	public List<Menu> getAllMenuInfo();
 
 	/**
-	 * 查询菜单信息
+	 * 通过菜单id查询菜单信息
 	 * 
 	 * @param menuId
 	 * @return
@@ -32,18 +32,21 @@ public interface IMenuService {
 	 * 更新菜单
 	 * 
 	 * @param menu
+	 * @param userId
+	 *            修改者用户id
 	 * @return
 	 */
-	public boolean updateMenu(Menu menu, String menuName);
+	public boolean updateMenu(Menu menu, Long userId);
 
 	/**
 	 * 添加菜单
 	 * 
 	 * @param menu
-	 * @param menuName
+	 * @param userId
+	 *            修改者用户id
 	 * @return
 	 */
-	public boolean addMenu(Menu menu, String menuName);
+	public boolean addMenu(Menu menu, Long userId);
 
 	/**
 	 * 获取某个节点的子节点数目,用于删除的特殊判断

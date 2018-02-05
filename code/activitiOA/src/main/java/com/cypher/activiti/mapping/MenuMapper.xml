@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cypher.activiti.dao.MenuMapper">
-
+	<!-- 所有字段 sql片段 -->
 	<sql id="Base_Column_List">
 		id, parent_id, name, sort, href, target, icon, is_show,
 		permission,
@@ -10,14 +10,14 @@
 	</sql>
 
 	<!-- 获取所有菜单 -->
-	<select id="selectAllMenuInfo" resultType="menu">
+	<select id="getAllMenuInfo" resultType="menu">
 		SELECT
 		<include refid="Base_Column_List"></include>
 		FROM pm_sys_menu
 	</select>
 
 	<!-- 获取菜单信息 -->
-	<select id="getMenuInfo" parameterType="long" resultType="menu">
+	<select id="getMenuById" parameterType="long" resultType="menu">
 		SELECT
 		<include refid="Base_Column_List"></include>
 		FROM pm_sys_menu
@@ -97,7 +97,9 @@
 		resultType="menu">
 		SELECT DISTINCT C.ID,C.PARENT_ID,C.NAME,
 		C.SORT,C.HREF,C.TARGET,C.ICON,C.IS_SHOW,C.PERMISSION
-		FROM PM_SYS_USER_ROLE A ,PM_SYS_ROLE_MENU B ,PM_SYS_MENU C
-		WHERE A.USER_ID= #{userId} AND A.ROLE_ID = B.ROLE_ID AND B.MENU_ID = C.ID
+		FROM
+		PM_SYS_USER_ROLE A ,PM_SYS_ROLE_MENU B ,PM_SYS_MENU C
+		WHERE A.USER_ID=
+		#{userId} AND A.ROLE_ID = B.ROLE_ID AND B.MENU_ID = C.ID
 	</select>
 </mapper>

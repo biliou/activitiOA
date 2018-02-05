@@ -18,12 +18,12 @@ public class MenuService implements IMenuService {
 
 	@Override
 	public List<Menu> getAllMenuInfo() {
-		return menuMapper.selectAllMenuInfo();
+		return menuMapper.getAllMenuInfo();
 	}
 
 	@Override
 	public Menu getMenuById(long menuId) {
-		return menuMapper.getMenuInfo(menuId);
+		return menuMapper.getMenuById(menuId);
 	}
 
 	@Override
@@ -32,15 +32,15 @@ public class MenuService implements IMenuService {
 	}
 
 	@Override
-	public boolean updateMenu(Menu menu, String menuName) {
-		menu.setUpdateBy(menuName);
+	public boolean updateMenu(Menu menu, Long userId) {
+		menu.setUpdateBy(userId.toString());
 		menu.setUpdateDate(new Date());
 		return menuMapper.updateMenu(menu);
 	}
 
 	@Override
-	public boolean addMenu(Menu menu, String menuName) {
-		menu.setUpdateBy(menuName);
+	public boolean addMenu(Menu menu, Long userId) {
+		menu.setUpdateBy(userId.toString());
 		menu.setUpdateDate(new Date());
 		return menuMapper.addMenu(menu);
 	}

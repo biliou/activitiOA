@@ -22,17 +22,14 @@ public class DictDaoTest {
 	private ApplicationContext ac = null;
 	private DictMapper dictMapper = null;
 
-	private Dict dictTest;
-
 	@Before
 	public void before() {
 		ac = new ClassPathXmlApplicationContext("/springmvc/spring-mybatis.xml");
 		dictMapper = (DictMapper) ac.getBean("dictMapper");
 	}
 
-	@Before
-	public void initTestDict() {
-		dictTest = new Dict();
+	public Dict initTestDict() {
+		Dict dictTest = new Dict();
 		dictTest.setValue("0");
 		dictTest.setLabel("1");
 		dictTest.setType("test type");
@@ -41,6 +38,7 @@ public class DictDaoTest {
 		dictTest.setUpdateBy("1");
 		dictTest.setUpdateDate(new Date());
 		dictTest.setRemarks("1");
+		return dictTest;
 	}
 
 	/**
@@ -156,14 +154,15 @@ public class DictDaoTest {
 	@Test
 	public void testDelDict() {
 		// 添加一个tester
-		initTestDict();
+		Dict dictTest = initTestDict();
 		dictMapper.addDict(dictTest);
 		List<Dict> dictList = dictMapper.selectAllDictInfo("test type", null);
+		Dict result = dictList.get(0);
 		assertEquals(dictList.size(), 1);
-		assertNotEquals(dictTest.getId(), null);
+		assertNotEquals(result.getId(), null);
 
 		// 删除测试用户
-		dictMapper.delDict(dictTest.getId());
+		dictMapper.delDict(result.getId());
 		// 查看是否存在一个tester
 		dictList = dictMapper.selectAllDictInfo("test type", null);
 		assertEquals(dictList.size(), 0);
@@ -175,11 +174,12 @@ public class DictDaoTest {
 	@Test
 	public void testUpdateDict() {
 		// 添加一个tester
-		initTestDict();
+		Dict dictTest = initTestDict();
 		dictMapper.addDict(dictTest);
 		List<Dict> dictList = dictMapper.selectAllDictInfo("test type", null);
+		Dict result = dictList.get(0);
 		assertEquals(dictList.size(), 1);
-		assertNotEquals(dictTest.getId(), null);
+		assertNotEquals(result.getId(), null);
 
 		// 更新字典label，描述，type
 		String newLable = "100";
@@ -208,14 +208,15 @@ public class DictDaoTest {
 	@Test
 	public void testAddDict() {
 		// 添加一个tester
-		initTestDict();
+		Dict dictTest = initTestDict();
 		dictMapper.addDict(dictTest);
 		List<Dict> dictList = dictMapper.selectAllDictInfo("test type", null);
+		Dict result = dictList.get(0);
 		assertEquals(dictList.size(), 1);
-		assertNotEquals(dictTest.getId(), null);
+		assertNotEquals(result.getId(), null);
 
 		// 删除测试用户
-		dictMapper.delDict(dictTest.getId());
+		dictMapper.delDict(result.getId());
 		// 查看是否存在一个tester
 		dictList = dictMapper.selectAllDictInfo("test type", null);
 		assertEquals(dictList.size(), 0);

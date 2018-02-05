@@ -10,15 +10,15 @@ public interface MenuMapper {
 	 * 
 	 * @return
 	 */
-	public List<Menu> selectAllMenuInfo();
+	public List<Menu> getAllMenuInfo();
 
 	/**
-	 * 查询菜单信息
+	 * 通过菜单id查询菜单信息
 	 * 
 	 * @param menuId
 	 * @return
 	 */
-	public Menu getMenuInfo(long menuId);
+	public Menu getMenuById(long menuId);
 
 	/**
 	 * 删除菜单

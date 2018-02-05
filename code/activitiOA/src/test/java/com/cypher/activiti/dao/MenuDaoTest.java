@@ -14,6 +14,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.alibaba.fastjson.JSON;
 import com.cypher.activiti.model.Menu;
 
+/**
+ * 测试菜单管理功能Dao接口
+ * 
+ * @author Administrator
+ *
+ */
 public class MenuDaoTest {
 	private ApplicationContext ac = null;
 	private MenuMapper menuMapper = null;
@@ -24,19 +30,40 @@ public class MenuDaoTest {
 		menuMapper = (MenuMapper) ac.getBean("menuMapper");
 	}
 
-	@Test
-	public void testSelectAllMenuInfo() {
-		List<Menu> menuList = menuMapper.selectAllMenuInfo();
-		int len = menuList.size();
-		assertThat(len, greaterThan(0));
-		System.out.println(JSON.toJSONString(menuList));
+	public Menu initTestMenu() {
+		Menu menuTest = new Menu();
+		menuTest.setName("test");
+		menuTest.setSort(20L);
+		menuTest.setIsShow("1");
+		menuTest.setUpdateBy("1");
+		menuTest.setUpdateDate(new Date());
+		menuTest.setParentId(1L);
+		menuTest.setHref("/sysmg/test");
+		return menuTest;
 	}
 
+	/**
+	 * 测试查询所有菜单
+	 */
 	@Test
-	public void testGetMenuInfo() {
-		Menu menu = menuMapper.getMenuInfo(1L);
-		assertEquals(menu.getName(), "功能菜单xx");
-		System.out.println(JSON.toJSONString(menu));
+	public void testSelectAllMenuInfo() {
+		List<Menu> menuList = menuMapper.getAllMenuInfo();
+		int len = menuList.size();
+		assertThat(len, greaterThan(0));
+		assertEquals(menuList.get(0).getName(), "功能菜单");
+	}
+
+	/**
+	 * 测试通过菜单id查询菜单信息
+	 */
+	@Test
+	public void testgetMenuById() {
+		Menu menu = menuMapper.getMenuById(1L);
+		assertEquals(menu.getName(), "功能菜单");
+		Long parentId = 0L;
+		assertEquals(menu.getParentId(), parentId);
+		assertEquals(menu.getHref(), "");
+		assertEquals(menu.getIsShow(), "1");
 	}
 
 	/**
@@ -44,49 +71,75 @@ public class MenuDaoTest {
 	 */
 	@Test
 	public void testDelMenu() {
-		boolean result = menuMapper.delMenu(33L);
-		Menu menu = menuMapper.getMenuInfo(33L);
-		assertEquals(menu, null);
-		System.out.println(JSON.toJSONString(menu));
+		// 添加一个tester
+		Menu menuTest = initTestMenu();
+		menuMapper.addMenu(menuTest);
+		Menu result = menuMapper.getMenuById(menuTest.getId());
+		assertEquals(result.getName(), menuTest.getName());
+		assertEquals(result.getHref(), menuTest.getHref());
+		assertEquals(result.getParentId(), menuTest.getParentId());
+
+		// 删除测试用户
+		menuMapper.delMenu(result.getId());
+
+		// 查看是否存在一个tester
+		result = menuMapper.getMenuById(menuTest.getId());
+		assertEquals(result, null);
 	}
 
 	/**
-	 * 测试更新菜单
+	 * 测试修改菜单
 	 */
 	@Test
 	public void testUpdateMenu() {
-		long menuId = 33L;
-		String menuName = "yoyo";
-		Menu menu = new Menu();
-		menu.setId(menuId);
-		menu.setName("yoyo");
+		// 添加一个tester
+		Menu menuTest = initTestMenu();
+		menuMapper.addMenu(menuTest);
+		Menu result = menuMapper.getMenuById(menuTest.getId());
+		assertEquals(result.getName(), menuTest.getName());
+		assertEquals(result.getHref(), menuTest.getHref());
+		assertEquals(result.getParentId(), menuTest.getParentId());
 
-		boolean result = menuMapper.updateMenu(menu);
-		Menu menuResult = menuMapper.getMenuInfo(menuId);
-		assertEquals(menuResult.getName(), menuName);
+		// 更新菜单Name，parentId，href
+		String newName = "test2";
+		Long newParentId = 2L;
+		String newHref = "testhref";
+		menuTest.setName(newName);
+		menuTest.setParentId(newParentId);
+		menuTest.setHref(newHref);
+		menuMapper.updateMenu(menuTest);
+		Menu updateMenu = menuMapper.getMenuById(menuTest.getId());
+		assertEquals(updateMenu.getName(), newName);
+		assertEquals(updateMenu.getHref(), newHref);
+		assertEquals(updateMenu.getParentId(), newParentId);
+
+		// 删除测试用户
+		menuMapper.delMenu(updateMenu.getId());
+
+		// 查看是否存在一个tester
+		result = menuMapper.getMenuById(updateMenu.getId());
+		assertEquals(result, null);
 	}
-	
+
 	/**
 	 * 测试添加菜单
 	 */
 	@Test
 	public void testAddMenu() {
 
-		String menuName = "yoyo";
-		Menu menu = new Menu();
-		menu.setName("yoyo");
-		menu.setSort(20L);
-		menu.setIsShow("0");
-		menu.setUpdateBy("1");
-		menu.setUpdateDate(new Date());
-		menu.setParentId(1L);
-		menu.setDelFlag("0");
-		
+		// 添加一个tester
+		Menu menuTest = initTestMenu();
+		menuMapper.addMenu(menuTest);
+		Menu result = menuMapper.getMenuById(menuTest.getId());
+		assertEquals(result.getName(), menuTest.getName());
+		assertEquals(result.getHref(), menuTest.getHref());
+		assertEquals(result.getParentId(), menuTest.getParentId());
 
-		boolean result = menuMapper.addMenu(menu);
-		System.out.println(menu.getId());
-		
-		Menu menuResult = menuMapper.getMenuInfo(menu.getId());
-		assertEquals(menuResult.getName(), menuName);
+		// 删除测试用户
+		menuMapper.delMenu(result.getId());
+
+		// 查看是否存在一个tester
+		result = menuMapper.getMenuById(menuTest.getId());
+		assertEquals(result, null);
 	}
 }

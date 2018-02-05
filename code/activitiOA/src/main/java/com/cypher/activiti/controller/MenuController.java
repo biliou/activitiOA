@@ -28,6 +28,12 @@ import com.cypher.activiti.model.User;
 import com.cypher.activiti.service.IMenuService;
 import com.cypher.activiti.util.TreeUtils;
 
+/**
+ * 用于菜单管理的Controller
+ * 
+ * @author Administrator
+ *
+ */
 @Controller
 public class MenuController {
 
@@ -64,12 +70,13 @@ public class MenuController {
 		}
 		// 增加页面
 		if (editFlag == 1) {
+			// 将当前节点的菜单信息作为添加节点的父节点
 			if (parentId != null) {
 				Menu parentMenu = menuService.getMenuById(parentId);
 				Menu menu = new Menu();
 				menu.setParentId(parentMenu.getId());
 				menu.setParentName(parentMenu.getName());
-				model.addAttribute("menu",menu);	
+				model.addAttribute("menu", menu);
 			}
 		}
 		return "/sysmg/menu/menuEdit";
@@ -86,11 +93,11 @@ public class MenuController {
 		try {
 			if (menu != null && menu.getId() != null) {
 				// 修改
-				menuService.updateMenu(menu, user.getUserName());
+				menuService.updateMenu(menu, user.getUserId());
 				resultMap.put("result", "更新菜单信息成功");
 			} else {
 				// 增加
-				menuService.addMenu(menu, user.getUserName());
+				menuService.addMenu(menu, user.getUserId());
 				resultMap.put("result", "添加菜单信息成功");
 			}
 		} catch (Exception e) {
@@ -139,21 +146,21 @@ public class MenuController {
 			treeList.add(treeDto);
 		}
 
-		// 找到自己与自己的子节点
+		// 如果是进入修改页面,为放置死循环 ,我们必须本节点以及本节点所有的儿子,孙子,全部过滤掉
 		List<Long> removeIdList = new ArrayList<Long>();
 		if (menuId != null && menuId >= 0) {
+			// 找到自己与自己的子节点
 			removeIdList.add(menuId);
-
 			TreeUtils.getAllChildrenIdList(treeList, removeIdList, menuId);
-		}
 
-		// 去掉自己与自己的子节点
-		Iterator<TreeDto> treeIterator = treeList.iterator();
-		while (treeIterator.hasNext()) {
-			TreeDto treeDto = treeIterator.next();
-			for (Long removeId : removeIdList) {
-				if (removeId == treeDto.getId()) {
-					treeIterator.remove();
+			// 去掉自己与自己的子节点
+			Iterator<TreeDto> treeIterator = treeList.iterator();
+			while (treeIterator.hasNext()) {
+				TreeDto treeDto = treeIterator.next();
+				for (Long removeId : removeIdList) {
+					if (removeId == treeDto.getId()) {
+						treeIterator.remove();
+					}
 				}
 			}
 		}
