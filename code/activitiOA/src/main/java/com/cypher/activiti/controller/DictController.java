@@ -26,6 +26,11 @@ import com.cypher.activiti.util.PageUtils;
 import com.cypher.activiti.util.StringUtil;
 import com.github.pagehelper.PageInfo;
 
+/**
+ * 用于字典管理的Controller
+ * @author Administrator
+ *
+ */
 @Controller
 public class DictController {
 
@@ -46,7 +51,7 @@ public class DictController {
 		return "sysmg/dict/dictList";
 	}
 
-	// 查询字典
+	// 获取字典列表
 	@RequestMapping(value = "/sysmg/dict/getDictListPage", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> getDictListPage(String type,
 			@RequestParam(value = "description") String desp, int pageNo, int pageSize) {

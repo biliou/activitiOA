@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cypher.activiti.dao.DictMapper">
-
+	<!-- 所有字符 sql片段 -->
 	<sql id="Base_Column_List">
 		id, value, label, type, description, sort, parent_id,
 		update_by,
@@ -100,7 +100,8 @@
 	<insert id="addDict" parameterType="dict" useGeneratedKeys="true"
 		keyProperty="id">
 
-		INSERT INTO PM_SYS_DICT(VALUE,LABEL, TYPE ,DESCRIPTION ,SORT ,
+		INSERT INTO PM_SYS_DICT(VALUE,LABEL, TYPE ,DESCRIPTION
+		,SORT ,
 		PARENT_ID ,UPDATE_BY, UPDATE_DATE, REMARKS)
 		VALUES(#{value},#{label},#{type},#{description},#{sort},
 		#{parentId},#{updateBy},#{updateDate},#{remarks}

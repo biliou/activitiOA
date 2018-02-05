@@ -10,10 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 public class TestLog4j {
 
 	private static Logger logger = Logger.getLogger(TestLog4j.class);
-	
-	/**
-	 * 
-	 */
+
 	@Test
 	public void test() {
 		logger.debug("我是debug");

@@ -25,6 +25,7 @@ public class LoginService implements ILoginService {
 		List<User> userList = userMapper.getUserList(user);
 
 		if (userList.size() > 0) {
+			// 验证密码
 			String destPwd = userList.get(0).getPassword();
 			boolean result = PwdEncrypt.validataPwd(password, destPwd);
 

@@ -22,6 +22,11 @@ import com.cypher.activiti.service.ILoginService;
 import com.cypher.activiti.service.IMenuService;
 import com.cypher.activiti.service.impl.MenuService;
 
+/**
+ * 用于登录功能的Controller
+ * @author Administrator
+ *
+ */
 @Controller
 public class LoginController {
 
@@ -41,7 +46,7 @@ public class LoginController {
 
 	// 跳转登录页（防值get方式出异常）
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String goToLogin2() {
+	public String goToLogin() {
 		return "login";
 	}
 

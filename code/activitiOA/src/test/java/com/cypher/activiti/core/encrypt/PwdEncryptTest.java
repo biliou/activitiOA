@@ -1,6 +1,8 @@
 package com.cypher.activiti.core.encrypt;
 
 import static org.junit.Assert.assertEquals;
+import java.util.List;
+
 import org.junit.Test;
 import com.cypher.activiti.util.EncryptUtil;
 
@@ -26,6 +28,15 @@ public class PwdEncryptTest {
 		String newPwdPart2 = EncryptUtil.encodeHex(plainSha1pwd);
 
 		assertEquals(oldPwdPart2, newPwdPart2);
+
+	}
+	
+	@Test
+	public void testValidataPwd() {
+		String pwd = "1234";
+		String encodePwd = "a4527621b5034c7705f4d758332366b544f11fbd8b8469220650bb1c";
+		boolean result = PwdEncrypt.validataPwd(pwd, encodePwd);
+		System.out.println(result);
 
 	}
 

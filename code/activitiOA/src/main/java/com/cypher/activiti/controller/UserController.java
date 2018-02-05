@@ -30,6 +30,12 @@ import com.cypher.activiti.service.IUserService;
 import com.cypher.activiti.util.PageUtils;
 import com.github.pagehelper.PageInfo;
 
+/**
+ * 用于用户信息管理的Controller
+ * 
+ * @author Administrator
+ *
+ */
 @Controller
 public class UserController {
 
@@ -182,19 +188,19 @@ public class UserController {
 
 	// 增加用户和修改用户
 	@RequestMapping(value = "/sysmg/user/saveUser", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> saveUser(@RequestBody UserVo userVo,HttpServletRequest request) {
+	public @ResponseBody Map<String, Object> saveUser(@RequestBody UserVo userVo, HttpServletRequest request) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 
-		//获取session用户id
+		// 获取session用户id
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		
+
 		try {
 			if (userVo != null && userVo.getUser() != null && userVo.getUser().getUserId() != null) {
-				userService.updateUserVo(userVo,user.getUserId());
+				userService.updateUserVo(userVo, user.getUserId());
 				resultMap.put("result", "修改用户信息成功");
 			} else {// 增加
-				userService.addUserVo(userVo,user.getUserId());
+				userService.addUserVo(userVo, user.getUserId());
 				resultMap.put("result", "增加用户信息成功");
 			}
 		} catch (Exception e) {

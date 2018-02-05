@@ -14,6 +14,12 @@ import com.cypher.activiti.service.IDictService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+/**
+ * 字典管理业务层接口
+ * 
+ * @author Administrator
+ *
+ */
 @Service
 public class DictService implements IDictService {
 
@@ -50,14 +56,14 @@ public class DictService implements IDictService {
 	}
 
 	@Override
-	public boolean addDict(Dict dict,Long userId) {
+	public boolean addDict(Dict dict, Long userId) {
 		dict.setUpdateDate(new Date());
 		dict.setUpdateBy(userId.toString());
 		return dictMapper.addDict(dict);
 	}
 
 	@Override
-	public boolean updateDict(Dict dict,Long userId) {
+	public boolean updateDict(Dict dict, Long userId) {
 		dict.setUpdateDate(new Date());
 		dict.setUpdateBy(userId.toString());
 		return dictMapper.updateDict(dict);

@@ -32,6 +32,7 @@ public interface IDictService {
 	 * 查询一个字典信息
 	 * 
 	 * @param dictId
+	 *            字典id
 	 * @return
 	 */
 	public Dict getDictInfoById(long dictId);
@@ -40,22 +41,30 @@ public interface IDictService {
 	 * 删除字典
 	 * 
 	 * @param dictId
+	 *            字典id
 	 * @return
 	 */
 	public boolean delDict(long dictId);
-	
+
 	/**
 	 * 修改字典
 	 * 
 	 * @param dict
+	 *            字典对象（修改信息）
+	 * @param userId
+	 *            修改者用户id
 	 * @return
 	 */
-	public boolean updateDict(Dict dict,Long userId);
-	
+	public boolean updateDict(Dict dict, Long userId);
+
 	/**
 	 * 增加字典
+	 * 
 	 * @param dict
+	 *            字典对象（修改信息）
+	 * @param userId
+	 *            修改者用户id
 	 * @return
 	 */
-	public boolean addDict(Dict dict,Long userId);
+	public boolean addDict(Dict dict, Long userId);
 }
