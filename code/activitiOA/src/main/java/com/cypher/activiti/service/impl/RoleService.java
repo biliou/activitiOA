@@ -131,7 +131,7 @@ public class RoleService implements IRoleService {
 			flag = roleMapper.addRoleToAreaBatch(roleAreaList);
 		}
 
-		return false;
+		return flag;
 	}
 
 	/**
