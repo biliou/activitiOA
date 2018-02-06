@@ -12,7 +12,6 @@ import com.cypher.activiti.model.Area;
  * @author Administrator
  *
  */
-@Service
 public interface IAreaService {
 
 	/**
