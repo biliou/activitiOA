@@ -27,7 +27,6 @@ import com.cypher.activiti.model.User;
 @ContextConfiguration(locations = { "classpath:springmvc/mvc-dispatcher-servlet.xml",
 		"classpath:springmvc/spring-mybatis.xml" })
 //配置事务的回滚,对数据库的增删改都会回滚,便于测试用例的循环利用
-@Rollback
 @Transactional
 @WebAppConfiguration
 public class LoginControllerTest {

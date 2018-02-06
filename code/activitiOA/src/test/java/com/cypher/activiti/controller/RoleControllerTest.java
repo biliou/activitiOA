@@ -20,6 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -33,7 +35,6 @@ import com.cypher.activiti.model.User;
 @ContextConfiguration(locations = { "classpath:springmvc/mvc-dispatcher-servlet.xml",
 		"classpath:springmvc/spring-mybatis.xml" })
 // 配置事务的回滚,对数据库的增删改都会回滚,便于测试用例的循环利用
-@Rollback
 @Transactional
 @WebAppConfiguration
 public class RoleControllerTest {
@@ -147,4 +148,38 @@ public class RoleControllerTest {
 				.andExpect(MockMvcResultMatchers.jsonPath("$.result").value("增加角色信息成功"));
 	}
 
+	/**
+	 * 测试修改角色<br/>
+	 * 
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testUpdateRole() throws Exception {
+		// 初始化参数
+		Role role = new Role();
+		role.setId(1L);
+		role.setName("test");
+
+		Map<String, String> areaIds = new HashMap<String, String>();
+		areaIds.put("2", "2");
+		Map<String, String> deptIds = new HashMap<String, String>();
+		deptIds.put("2", "2");
+		Map<String, String> menuIds = new HashMap<String, String>();
+		menuIds.put("2", "2");
+
+		JSONObject params = new JSONObject();
+		params.put("role", role);
+		params.put("areaIds", areaIds);
+		params.put("deptIds", deptIds);
+		params.put("menuIds", menuIds);
+		
+		mockMvc.perform(post("/sysmg/role/saveRole")// 请求地址
+				.contentType(MediaType.APPLICATION_JSON)// 参数格式
+				.content(JSON.toJSONString(params)) // 参数
+				.session(session))// 传入session
+				.andExpect(MockMvcResultMatchers.status().isOk())// 返回的状态是200
+				.andExpect(MockMvcResultMatchers.jsonPath("$.result").value("修改角色信息成功"));
+
+	}
 }
