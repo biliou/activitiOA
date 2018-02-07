@@ -112,8 +112,8 @@ public class DictController {
 				resultMap.put("result", "修改字典信息成功");
 			}
 		} catch (Exception e) {
-			resultMap.put("result", "修改字典信息失败");
-			logger.error("修改字典信息失败", e);
+			resultMap.put("result", "修改字典操作失败");
+			logger.error("修改字典操作失败", e);
 		}
 
 		return resultMap;

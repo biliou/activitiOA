@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.cypher.activiti.dto.RoleDto;
 import com.cypher.activiti.model.Area;
 import com.cypher.activiti.model.Dept;
@@ -110,7 +111,7 @@ public class RoleController {
 			}
 		} catch (Exception e) {
 			logger.error("操作角色信息失败", e);
-			resultMap.put("result", "增加角色信息失败");
+			resultMap.put("result", "操作角色信息失败");
 		}
 
 		return resultMap;
@@ -128,7 +129,7 @@ public class RoleController {
 				resultMap.put("result", "删除角色信息成功");
 
 			} catch (Exception e) {
-				resultMap.put("result", "请输入roleId");
+				resultMap.put("result", "删除角色信息失败");
 				logger.warn("删除角色信息失败", e);
 			}
 

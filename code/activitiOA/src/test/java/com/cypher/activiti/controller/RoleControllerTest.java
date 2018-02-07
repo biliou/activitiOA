@@ -1,7 +1,7 @@
 package com.cypher.activiti.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,24 +10,23 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.cypher.activiti.dto.RoleDto;
+import com.cypher.activiti.dao.RoleDaoTest;
+import com.cypher.activiti.dao.RoleMapper;
 import com.cypher.activiti.model.Role;
 import com.cypher.activiti.model.User;
 
@@ -44,6 +43,15 @@ public class RoleControllerTest {
 
 	private MockMvc mockMvc;
 	private MockHttpSession session;
+
+	private ApplicationContext ac = null;
+	private RoleMapper roleMapper = null;
+
+	@Before
+	public void before() {
+		ac = new ClassPathXmlApplicationContext("/springmvc/spring-mybatis.xml");
+		roleMapper = (RoleMapper) ac.getBean("roleMapper");
+	}
 
 	@Before
 	public void setUp() throws Exception {
@@ -173,7 +181,7 @@ public class RoleControllerTest {
 		params.put("areaIds", areaIds);
 		params.put("deptIds", deptIds);
 		params.put("menuIds", menuIds);
-		
+
 		mockMvc.perform(post("/sysmg/role/saveRole")// 请求地址
 				.contentType(MediaType.APPLICATION_JSON)// 参数格式
 				.content(JSON.toJSONString(params)) // 参数
@@ -181,5 +189,35 @@ public class RoleControllerTest {
 				.andExpect(MockMvcResultMatchers.status().isOk())// 返回的状态是200
 				.andExpect(MockMvcResultMatchers.jsonPath("$.result").value("修改角色信息成功"));
 
+	}
+
+	/**
+	 * 测试删除角色成功
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testDelRelo() throws Exception {
+		// 添加角色
+		RoleDaoTest roleDaoTest = new RoleDaoTest();
+		Role roleTest = roleDaoTest.initTestRole();
+		roleMapper.addRole(roleTest);
+		Role result = roleMapper.getRoleById(roleTest.getId());
+		assertEquals(result.getName(), roleTest.getName());
+
+		// 删除
+		String requestUrl = "/sysmg/role/delRole/" + 2;
+		mockMvc.perform(delete(requestUrl)// 请求地址
+				.accept("application/json;charset=UTF-8")// 请求格式
+				.session(session))// 传入session
+				.andExpect(MockMvcResultMatchers.status().isOk())// 返回的状态是200
+				.andExpect(MockMvcResultMatchers.jsonPath("$.result").value("删除角色信息成功"));
+
+		// 删除测试角色
+		roleMapper.delRole(roleTest.getId());
+
+		// 查看是否存在一个tester
+		result = roleMapper.getRoleById(roleTest.getId());
+		assertEquals(result, null);
 	}
 }
