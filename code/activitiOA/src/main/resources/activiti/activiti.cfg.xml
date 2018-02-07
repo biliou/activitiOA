@@ -15,9 +15,6 @@
        http://www.springframework.org/schema/mvc 
        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
        
-	<!-- 引入配置数据库文件 -->
-	<context:property-placeholder location="classpath:properties/jdbc.properties" />
-
 	<bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
 
 		<property name="jdbcDriver" value="com.mysql.jdbc.Driver" />

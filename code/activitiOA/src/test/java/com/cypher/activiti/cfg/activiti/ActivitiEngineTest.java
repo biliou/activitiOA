@@ -2,6 +2,7 @@ package com.cypher.activiti.cfg.activiti;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngineConfiguration;
+import org.activiti.engine.ProcessEngines;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -43,11 +44,12 @@ public class ActivitiEngineTest {
 	@Ignore
 	public void testActivitiEngineFromResource() {
 		// 创建Activiti配置对象的实例
-		ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration
-				.createProcessEngineConfigurationFromResource("activiti/activiti-cfg.xml");
-
+		 ProcessEngineConfiguration processEngineConfiguration =
+		 ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti/activiti.cfg.xml");
+		 ProcessEngine processEngine =
+		 processEngineConfiguration.buildProcessEngine();
+		
 		// 工作流的核心对象，ProcessEnginee对象
-		ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
 		System.out.println("processEngine:" + processEngine);
 		System.out.println("初始化Activiti数据库表结束");
 	}
