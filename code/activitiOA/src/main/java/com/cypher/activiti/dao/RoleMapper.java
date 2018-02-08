@@ -158,4 +158,27 @@ public interface RoleMapper {
 	 */
 	public boolean addUserRole(List<UserToRole> userToRoleList);
 
+	/**
+	 * 增加角色菜单对应记录
+	 * 
+	 * @param roleMenu
+	 * @return
+	 */
+	public boolean addRoleToMenu(RoleToMenu roleMenu);
+
+	/**
+	 * 增加角色区域对应记录
+	 * 
+	 * @param roleArea
+	 * @return
+	 */
+	public boolean addRoleToArea(RoleToArea roleArea);
+
+	/**
+	 * 增加角色部门对应记录
+	 * 
+	 * @param roleDept
+	 * @return
+	 */
+	public boolean addRoleToDept(RoleToDept roleDept);
 }

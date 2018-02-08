@@ -173,5 +173,21 @@
 		</foreach>
 	</insert>
 
-
+	<!--增加角色菜单对应关系 -->
+	<insert id="addRoleToMenu" parameterType="roleToMenu">
+		INSERT INTO PM_SYS_ROLE_MENU(ROLE_ID,MENU_ID)
+		VALUES(#{roleId},#{menuId})
+	</insert>
+	
+	<!--增加角色部门对应关系 -->
+	<insert id="addRoleToDept" parameterType="roleToDept">
+		INSERT INTO PM_SYS_ROLE_DEPT(ROLE_ID,DEPT_ID)
+		VALUES(#{roleId},#{deptId})
+	</insert>
+	
+	<!--增加角色区域对应关系 -->
+	<insert id="addRoleToArea" parameterType="roleToArea">
+		INSERT INTO PM_SYS_ROLE_AREA(ROLE_ID,AREA_ID)
+		VALUES(#{roleId},#{areaId})
+	</insert>
 </mapper>
