@@ -113,8 +113,9 @@
 							//后台返回则关掉提示
 							top.$.jBox.closeTip();
 							alert(data.result);
-							//history.go(-1);
+							//history.go(-1); 
 							window.location.href="${ctx}/sysmg/menu/gotoMenuList";
+							
 						}
 					});
 				},

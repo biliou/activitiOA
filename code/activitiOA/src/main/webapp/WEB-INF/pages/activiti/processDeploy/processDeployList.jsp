@@ -14,7 +14,7 @@
   	 		if(confirm("您确定要删除此流程部署吗?")){  	 			 
   		 		  $.ajax({
   						type:'post',//请求方式
-  						url:'${ctx}/activitimgr/processDeploy/delProcessDeploy', 
+  						url:'${ctx}/activiti/processDeploy/delProcessDeploy', 
   						dataType:'json', //有几种格式 xml html json text 等常用
   						//data传值的另外一种方式 form的序列化
   						data: {"deploymentId":deploymentId},//传递给服务器的参数				
@@ -35,10 +35,10 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="javascript:void(0);">流程部署列表</a></li>
-		<li><a href="${ctx}/activitimgr/processDeploy/gotoProcessDeployAdd">流程部署</a></li>
+		<li><a href="${ctx}/activiti/processDeploy/gotoProcessDeployAdd">流程部署</a></li>
 	</ul>
 
-	<form id="processDeployListForm" method="post" action="${ctx}/activitimgr/processDeploy/gotoProcessDeployList">
+	<form id="processDeployListForm" method="post" action="${ctx}/activiti/processDeploy/gotoProcessDeployList">
 		<table id="processDeployListTable" class="table table-striped table-bordered table-condensed">
 			<thead>
 				<tr>
