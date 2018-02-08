@@ -89,6 +89,12 @@
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<!-- 因为引入activiti-spring会引入低版本所以这里引入 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
 		<!-- mybatis核心包 -->
 		<dependency>
@@ -126,6 +132,12 @@
 		<dependency>
 			<groupId>org.activiti</groupId>
 			<artifactId>activiti-engine</artifactId>
+			<version>5.18.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-spring</artifactId>
 			<version>5.18.0</version>
 		</dependency>
 
@@ -310,6 +322,8 @@
 				<includes>
 					<include>**/*.xml</include>
 					<include>**/*.properties</include>
+					<include>diagrams/*.bpmn</include>
+					<include>diagrams/*.png</include>
 				</includes>
 			</resource>
 		</resources>
