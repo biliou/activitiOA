@@ -379,15 +379,79 @@ public class RoleDaoTest {
 
 		List<UserToRole> userToRoleListResult = roleMapper.getUserRoleByUserId(addUserId);
 		assertEquals(userToRoleListResult.size(), 2);
-		
+
 		// 删除测试区域
 		roleMapper.delUserRoleByUserId(addUserId);
-		userToRoleListResult = roleMapper.getUserRoleByUserId(addUserId);
-		assertEquals(userToRoleListResult.size(), 0);
 
 		// 查看是否存在一个tester
 		userToRoleListResult = roleMapper.getUserRoleByUserId(addUserId);
 		assertEquals(userToRoleListResult.size(), 0);
+	}
+
+	/**
+	 * 测试增加角色菜单对应关系
+	 */
+	@Test
+	public void testAddRoleToMenu() {
+		// 添加角色菜单关联信息
+		Long roleId = 2L;
+		RoleToMenu roleMenu = new RoleToMenu();
+		roleMenu.setRoleId(roleId);
+		roleMenu.setMenuId(2L);
+		roleMapper.addRoleToMenu(roleMenu);
+		List<RoleToMenu> roleToMenuListResult = roleMapper.getMenuListByRoleId(roleId);
+		assertEquals(roleToMenuListResult.size(), 1);
+
+		// 删除测试关联信息
+		roleMapper.delRoleToMenu(roleId);
+
+		// 查看是否存在关联信息
+		roleToMenuListResult = roleMapper.getMenuListByRoleId(roleId);
+		assertEquals(roleToMenuListResult.size(), 0);
+	}
+
+	/**
+	 * 测试增加角色部门对应关系
+	 */
+	@Test
+	public void testAddRoleToDept() {
+		// 添加角色菜单关联信息
+		Long roleId = 2L;
+		RoleToDept roleDept = new RoleToDept();
+		roleDept.setRoleId(roleId);
+		roleDept.setDeptId(2L);
+		roleMapper.addRoleToDept(roleDept);
+		List<RoleToDept> roleToDeptListResult = roleMapper.getDeptListByRoleId(roleId);
+		assertEquals(roleToDeptListResult.size(), 1);
+
+		// 删除测试关联信息
+		roleMapper.delRoleToDept(roleId);
+
+		// 查看是否存在关联信息
+		roleToDeptListResult = roleMapper.getDeptListByRoleId(roleId);
+		assertEquals(roleToDeptListResult.size(), 0);
+	}
+
+	/**
+	 * 测试增加角色区域对应关系
+	 */
+	@Test
+	public void testAddRoleToArea() {
+		// 添加角色菜单关联信息
+		Long roleId = 2L;
+		RoleToArea roleArea = new RoleToArea();
+		roleArea.setRoleId(roleId);
+		roleArea.setAreaId(2L);
+		roleMapper.addRoleToArea(roleArea);
+		List<RoleToArea> roleToAreaListResult = roleMapper.getAreaListByRoleId(roleId);
+		assertEquals(roleToAreaListResult.size(), 1);
+
+		// 删除测试关联信息
+		roleMapper.delRoleToArea(roleId);
+
+		// 查看是否存在关联信息
+		roleToAreaListResult = roleMapper.getAreaListByRoleId(roleId);
+		assertEquals(roleToAreaListResult.size(), 0);
 	}
 
 }

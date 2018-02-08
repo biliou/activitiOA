@@ -7,14 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cypher.activiti.dao.DeptMapper;
+import com.cypher.activiti.dao.RoleMapper;
 import com.cypher.activiti.model.Dept;
+import com.cypher.activiti.model.RoleToDept;
 import com.cypher.activiti.service.IDeptService;
 
 @Service
 public class DeptService implements IDeptService {
-	
+
 	@Autowired
 	private DeptMapper deptMapper;
+	@Autowired
+	private RoleMapper roleMapper;
 
 	@Override
 	public List<Dept> getAllDeptInfo() {
@@ -37,10 +41,19 @@ public class DeptService implements IDeptService {
 	}
 
 	@Override
-	public boolean addDept(Dept dept,Long userId) {
+	public boolean addDept(Dept dept, Long userId) {
+		boolean flag = false;
 		dept.setUpdateBy(userId.toString());
 		dept.setUpdateDate(new Date());
-		return deptMapper.addDept(dept);
+		flag = deptMapper.addDept(dept);
+
+		// 在增加部门的时候,同时需要给超级管理增加一条映射记录
+		RoleToDept roleDept = new RoleToDept();
+		roleDept.setRoleId(1l);
+		roleDept.setDeptId(userId);
+		flag = roleMapper.addRoleToDept(roleDept);
+
+		return flag;
 	}
 
 	@Override
@@ -49,6 +62,5 @@ public class DeptService implements IDeptService {
 		dept.setUpdateDate(new Date());
 		return deptMapper.updateDept(dept);
 	}
-
 
 }

@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cypher.activiti.dao.MenuMapper;
+import com.cypher.activiti.dao.RoleMapper;
 import com.cypher.activiti.model.Menu;
+import com.cypher.activiti.model.RoleToMenu;
 import com.cypher.activiti.service.IMenuService;
 
 @Service
@@ -15,6 +17,9 @@ public class MenuService implements IMenuService {
 
 	@Autowired
 	private MenuMapper menuMapper;
+	
+	@Autowired
+	private RoleMapper roleMapper;
 
 	@Override
 	public List<Menu> getAllMenuInfo() {
@@ -40,9 +45,18 @@ public class MenuService implements IMenuService {
 
 	@Override
 	public boolean addMenu(Menu menu, Long userId) {
+		boolean flag = false;
+		
 		menu.setUpdateBy(userId.toString());
 		menu.setUpdateDate(new Date());
-		return menuMapper.addMenu(menu);
+		flag = menuMapper.addMenu(menu);
+		// 在增加菜单的时候,同时需要给超级管理增加一条映射记录
+		RoleToMenu roleMenu = new RoleToMenu();
+		roleMenu.setRoleId(1l);
+		roleMenu.setMenuId(menu.getId());
+		flag = this.roleMapper.addRoleToMenu(roleMenu);
+		
+		return flag;
 	}
 
 	@Override
