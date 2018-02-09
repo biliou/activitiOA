@@ -13,11 +13,11 @@
    		delprocessDeploy:function(deploymentId){	
   	 		if(confirm("您确定要删除此流程部署吗?")){  	 			 
   		 		  $.ajax({
-  						type:'post',//请求方式
-  						url:'${ctx}/activiti/processDeploy/delProcessDeploy', 
+  						type:'delete',//请求方式
+  						url:'${ctx}/activiti/processDeploy/delProcessDeploy/'+ deploymentId, 
   						dataType:'json', //有几种格式 xml html json text 等常用
   						//data传值的另外一种方式 form的序列化
-  						data: {"deploymentId":deploymentId},//传递给服务器的参数				
+  						//data: {"deploymentId":deploymentId},//传递给服务器的参数				
   						success:function(data){//与服务器交互成功调用的回调函数
   							//data就是out.print输出的内容
   							alert(data.result);

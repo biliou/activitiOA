@@ -31,11 +31,11 @@ $(document).ready(function() {
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/activitimgr/processDeploy/gotoProcessDeployList">流程部署列表</a></li>
+		<li><a href="${ctx}/activiti/processDeploy/gotoProcessDeployList">流程部署列表</a></li>
 		<li class="active"><a href="javascript:void(0);">流程部署</a></li>
 	</ul><br/>
 	<form id="processDeployAddForm" class="form-horizontal" 
-				action="${ctx}/activitimgr/processDeploy/addProcessDeploy" method="post" enctype="multipart/form-data">  
+				action="${ctx}/activiti/processDeploy/addProcessDeploy" method="post" enctype="multipart/form-data">  
 		<div class="control-group">
 			<label class="control-label">流程部署名称:</label>
 			<div class="controls">
