@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cypher.activiti.dao.LeaveMapper">
+
+	<!-- 所有字段 -->
+	<sql id="Base_Column_List">
+		leave_id, leave_user_id, leave_date, leave_days,
+		leave_reason, remark,
+		leave_state,process_instance_id
+	</sql>
+
+	<!-- 获取所有请假流程信息列表 -->
+	<select id="getLeaveProcessList" parameterType="long"
+		resultType="leaveBean">
+		SELECT
+		A.leave_id,A.leave_user_id,A.leave_date,A.leave_days,
+		A.leave_reason,A.remark,
+		A.leave_state,A.process_instance_id,B.user_name AS leave_user_name
+		FROM pm_activiti_leave A,
+		pm_sys_user B
+		WHERE A.leave_user_id =
+		B.user_id
+		<if test="userId!=null">
+			AND A.LEAVE_USER_ID = #{userId}
+		</if>
+	</select>
+
+	<!-- 通过LeaveId 获取请假流程信息 -->
+	<select id="getLeaveProcessByLeaveId" parameterType="long"
+		resultType="leaveBean">
+		SELECT
+		A.leave_id,A.leave_user_id,A.leave_date,A.leave_days,
+		A.leave_reason,A.remark,
+		A.leave_state,A.process_instance_id,B.user_name AS leave_user_name
+		FROM pm_activiti_leave A,
+		pm_sys_user B
+		WHERE A.leave_user_id =
+		B.user_id
+		<if test="leaveId!=null">
+			AND A.leave_id = #{leaveId}
+		</if>
+	</select>
+
+	<!-- 添加请假申请 -->
+	<insert id="addLeaveProcess" parameterType="leaveBean"
+		keyProperty="leaveId" useGeneratedKeys="true">
+		INSERT INTO pm_activiti_leave (
+		leave_user_id, leave_date,
+		leave_days,leave_reason, remark,
+		leave_state
+		) VALUES(
+		#{leaveUserId},#{leaveDate},#{leaveDays},
+		#{leaveReason},#{remark},#{leaveState}
+		)
+	</insert>
+
+	<!-- 修改请假申请 -->
+	<update id="updateLeaveProcess" parameterType="leaveBean">
+		UPDATE pm_activiti_leave
+		<set>
+			<if test="leaveUserId != null">
+				leave_user_id = #{leaveUserId},
+			</if>
+			<if test="leaveDate!=null">
+				leave_date = #{leaveDate},
+			</if>
+			<if test="leaveDays!=null">
+				leave_days = #{leaveDays},
+			</if>
+			<if test="leaveReason!=null">
+				leave_reason = #{leaveReason},
+			</if>
+			<if test="remark!=null">
+				remark = #{remark},
+			</if>
+			<if test="leaveState != null">
+				leave_state = #{leaveState},
+			</if>
+		</set>
+		WHERE leave_id = #{leaveId}
+	</update>
+
+	<!-- 删除请假申请 -->
+	<delete id="delLeaveProcess" parameterType="long">
+		DELETE FROM
+		pm_activiti_leave WHERE leave_id = #{leaveId}
+	</delete>
+
+	<!-- 请假状态修改 -->
+	<update id="updateLeaveState">
+		UPDATE pm_activiti_leave SET
+		leave_state = #{1}
+		WHERE leave_id = #{0}
+	</update>
+	
+	<!-- 请假实例绑定 -->
+	<update id="updateLeaveProcessInstanceId">
+		UPDATE pm_activiti_leave SET
+		process_instance_id = #{1}
+		WHERE leave_id = #{0}
+	</update>
+</mapper>
