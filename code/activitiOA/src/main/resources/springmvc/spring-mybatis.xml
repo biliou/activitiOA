@@ -81,4 +81,11 @@
 		factory-method="getTaskService" />
 	<bean id="historyService" factory-bean="processEngine"
 		factory-method="getHistoryService" />
+	<bean id="formService" factory-bean="processEngine"
+		factory-method="getFormService" />
+		
+	<!-- 注册activiti监听器-->
+	<bean id="teamLeaderTaskListener" class="com.cypher.activiti.core.activiti.listener.TeamLeaderTaskListener"></bean>
+	<bean id="deptManagerTaskListener" class="com.cypher.activiti.core.activiti.listener.DeptManagerTaskListener"></bean>
+	
 </beans>

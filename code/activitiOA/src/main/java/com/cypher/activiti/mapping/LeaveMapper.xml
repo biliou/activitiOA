@@ -6,7 +6,7 @@
 	<sql id="Base_Column_List">
 		leave_id, leave_user_id, leave_date, leave_days,
 		leave_reason, remark,
-		leave_state,process_instance_id
+		leave_state
 	</sql>
 
 	<!-- 获取所有请假流程信息列表 -->
@@ -90,13 +90,25 @@
 	<update id="updateLeaveState">
 		UPDATE pm_activiti_leave SET
 		leave_state = #{1}
-		WHERE leave_id = #{0}
+		WHERE
+		leave_id = #{0}
 	</update>
-	
-	<!-- 请假实例绑定 -->
+
+	<!-- 请假单与请假流程实例绑定 -->
 	<update id="updateLeaveProcessInstanceId">
 		UPDATE pm_activiti_leave SET
-		process_instance_id = #{1}
+		process_instance_id =
+		#{1}
 		WHERE leave_id = #{0}
 	</update>
+
+	<!-- 通过流程实例id获取请假单信息 -->
+	<select id="getLeaveBeanByProcessInstanceId" parameterType="string"
+		resultType="leaveBean">
+		SELECT leave_id,leave_user_id,leave_date,leave_days,
+		leave_reason,remark,
+		leave_state,process_instance_id
+		FROM pm_activiti_leave
+		where process_instance_id = #{processInstanceId}
+	</select>
 </mapper>

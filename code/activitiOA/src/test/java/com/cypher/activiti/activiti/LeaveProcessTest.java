@@ -7,11 +7,17 @@ import org.activiti.engine.ProcessEngineConfiguration;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Attachment;
+import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import com.alibaba.fastjson.JSON;
+
 @Ignore
 public class LeaveProcessTest {
 
@@ -46,8 +52,8 @@ public class LeaveProcessTest {
 		// 链式
 		Deployment deploy = processEngine.getRepositoryService() // 流程部署和流程定义相关的服务接口
 				.createDeployment() // 创建部署构建器
-				.addClasspathResource("diagrams/leave.bpmn") // 添加资源
-				.addClasspathResource("diagrams/leave.png")// 添加资源
+				.addClasspathResource("diagrams/leave1.bpmn") // 添加资源
+				.addClasspathResource("diagrams/leave1.png")// 添加资源
 				.name("请假流程")// 定义流程名字
 				.deploy();// 进行部署
 
@@ -63,13 +69,18 @@ public class LeaveProcessTest {
 	 */
 	@Test
 	public void testStartLeaveProcess() {
-		String processDefinitionKey = "leave";
+		String processDefinitionKey = "myProcess";
 		ProcessInstance processInstance = processEngine.getRuntimeService()
 				.startProcessInstanceByKey(processDefinitionKey);
 		System.out.println("流程部署ID=" + processInstance.getDeploymentId());
 		System.out.println("流程定义ID=" + processInstance.getProcessDefinitionId());
 		System.out.println("流程实例ID=" + processInstance.getProcessInstanceId());
 		System.out.println("流程任务ID=" + processInstance.getActivityId());
+
+		// 流程部署ID=null
+		// 流程定义ID=myProcess:1:47504
+		// 流程实例ID=50001
+		// 流程任务ID=usertask1
 	}
 
 	/**
@@ -77,11 +88,11 @@ public class LeaveProcessTest {
 	 */
 	@Test
 	public void testQueryMyTask1() {
-		String processInstanceId = "15001";
-		String assignee = "user1";
+		String processInstanceId = "50001";
+		// String assignee = "user2";
 		List<Task> taskList = processEngine.getTaskService() // 跟任务处理相关的服务类
 				.createTaskQuery()// 创建一个任务查询
-				.taskAssignee(assignee) // 加入查询条件: 委托人
+				// .taskAssignee(assignee) // 加入查询条件: 委托人
 				.processInstanceId(processInstanceId) // 加入查询条件: 流程实例ID
 				.list();
 
@@ -102,7 +113,7 @@ public class LeaveProcessTest {
 	 */
 	@Test
 	public void testExecutionTask1() {
-		String taskId = "15004";
+		String taskId = "52502";
 		processEngine.getTaskService()// 跟任务处理相关的服务类
 				.complete(taskId); // 完成任务
 		System.out.println("请假申请任务完成");
@@ -113,7 +124,14 @@ public class LeaveProcessTest {
 	 */
 	@Test
 	public void testQueryProInstanceState() {
-		String processInstanceId = "27501";
+		String processInstanceId = "5";
+		// String taskId = "90010";
+
+		// Task task =
+		// processEngine.getTaskService().createTaskQuery().taskId(taskId).singleResult();
+		// String processDefinitionId = task.getProcessDefinitionId();
+		// String processInstanceId = task.getProcessInstanceId();
+
 		ProcessInstance processInstance = processEngine.getRuntimeService() // 获取跟执行流程相关的服务类
 				.createProcessInstanceQuery() // 创建流程实例查询
 				.processInstanceId(processInstanceId) // 查询条件：实例id
@@ -134,7 +152,7 @@ public class LeaveProcessTest {
 
 	@Test
 	public void testQueryMyTask2() {
-		String processInstanceId = "15001";
+		String processInstanceId = "22504";
 		String assignee = "user2";
 		List<Task> taskList = processEngine.getTaskService() // 跟任务处理相关的服务类
 				.createTaskQuery()// 创建一个任务查询
@@ -159,7 +177,7 @@ public class LeaveProcessTest {
 	 */
 	@Test
 	public void testExecutionTask2() {
-		String taskId = "20002";
+		String taskId = "30004";
 		processEngine.getTaskService()// 跟任务处理相关的服务类
 				.complete(taskId); // 完成任务
 		System.out.println("审批任务完成");
@@ -173,7 +191,7 @@ public class LeaveProcessTest {
 	 */
 	@Test
 	public void testQueryMyTaskComplate() {
-		String processInstanceId = "15001";
+		String processInstanceId = "5";
 		List<HistoricTaskInstance> historicTaskInstancesList = processEngine.getHistoryService() // 跟任务历史相关的服务类
 				.createHistoricTaskInstanceQuery()// 创建一个任务历史查询
 				.processInstanceId(processInstanceId)// 加入查询条件: 流程实例ID
@@ -195,15 +213,94 @@ public class LeaveProcessTest {
 				.createHistoricProcessInstanceQuery()// 创建一个任务历史查询
 				.processInstanceId(processInstanceId)// 加入查询条件: 流程实例ID
 				.singleResult();
-		
+
 		System.out.println("-----查询任务历史中最新的一条-----");
 		System.out.println("流程实例ID:" + hisTask.getId());
 		System.out.println("流程定义ID:" + hisTask.getProcessDefinitionId());
 		System.out.println("流程实例结束时间:" + hisTask.getEndTime());
-//		System.out.println("流程任务id:" + hisTask.getTaskDefinitionKey());
-//		System.out.println("流程任务开始时间:" + hisTask.getCreateTime());
-//		System.out.println("流程任务结束时间:" + hisTask.getEndTime());
-		
+		// System.out.println("流程任务id:" + hisTask.getTaskDefinitionKey());
+		// System.out.println("流程任务开始时间:" + hisTask.getCreateTime());
+		// System.out.println("流程任务结束时间:" + hisTask.getEndTime());
 
 	}
+
+	/**
+	 * 获取当前流程实例的部署id
+	 */
+	@Test
+	public void testGetDeploymentId() {
+		String processInstanceId = "5";
+		String processDefinitionId = "";
+
+		ProcessInstance processInstance = processEngine.getRuntimeService()//
+				.createProcessInstanceQuery()//
+				.processInstanceId(processInstanceId).singleResult();
+
+		if (processInstance != null) {
+			System.out.println("流程定义id =" + processInstance.getProcessDefinitionId());
+			System.out.println("流程部署id =" + processInstance.getDeploymentId());
+			System.out.println("流程部署id =" + processInstance.getProcessDefinitionKey());
+
+			processDefinitionId = processInstance.getProcessDefinitionId();
+		} else {
+			// 查询执行到哪一个节点
+			HistoricProcessInstance historicProcessInstance = processEngine.getHistoryService()//
+					.createHistoricProcessInstanceQuery()//
+					.processInstanceId(processInstanceId)//
+					.singleResult();
+
+			System.out.println("-----查询任务历史中最新的一条-----");
+			System.out.println("流程实例ID:" + historicProcessInstance.getId());
+			System.out.println("流程定义ID:" + historicProcessInstance.getProcessDefinitionId());
+			System.out.println("流程实例结束时间:" + historicProcessInstance.getEndTime());
+			System.out.println("流程任务id:" + historicProcessInstance.getEndActivityId());
+
+			processDefinitionId = historicProcessInstance.getProcessDefinitionId();
+		}
+
+		ProcessDefinition processDefinition = processEngine.getRepositoryService().createProcessDefinitionQuery()
+				.processDefinitionId(processDefinitionId).singleResult();
+
+		System.out.println("流程部署id =" + processDefinition.getDeploymentId());
+
+	}
+
+	/**
+	 * 通过任务id获取当前任务对象
+	 */
+	@Test
+	public void testGetTaskByTaskId() {
+		String taskId = "77509";
+
+		Task task = processEngine.getTaskService()//
+				.createTaskQuery()//
+				.taskId(taskId)//
+				.singleResult();
+
+		System.out.println("流程任务ID:" + task.getId());
+		System.out.println("流程任务执行者:" + task.getAssignee());
+		System.out.println("流程任务定义id:" + task.getTaskDefinitionKey());
+		System.out.println("流程任务开始时间:" + task.getCreateTime());
+		System.out.println("流程定义ID:" + task.getProcessDefinitionId());
+		System.out.println("流程实例ID:" + task.getProcessInstanceId());
+
+	}
+
+	@Test
+	public void testGetTaskFormKeyByTaskId() {
+		String formKey = processEngine.getFormService()//
+				.getTaskFormData("60009")//
+				.getFormKey();
+
+		System.out.println(formKey);
+	}
+
+	@Test
+	public void testGetLineName() {
+		List<Comment> commentList = processEngine.getTaskService()//
+				.getTaskComments("60009");
+
+		System.out.println(commentList);
+	}
+
 }

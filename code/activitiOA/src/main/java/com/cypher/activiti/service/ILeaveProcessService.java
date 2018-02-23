@@ -59,4 +59,11 @@ public interface ILeaveProcessService {
 	 * @return
 	 */
 	public boolean doLeaveProcess(Long leaveId, Long userId);
+	
+	/**
+	 * 通过任务id查询对应的请假单信息
+	 * @param taskId
+	 * @return
+	 */
+	public LeaveBean getLeaveBeanByTaskId(String taskId);
 }

@@ -6,6 +6,7 @@ import com.cypher.activiti.model.Role;
 import com.cypher.activiti.model.RoleToArea;
 import com.cypher.activiti.model.RoleToDept;
 import com.cypher.activiti.model.RoleToMenu;
+import com.cypher.activiti.model.User;
 import com.cypher.activiti.model.UserToRole;
 
 /**
@@ -181,4 +182,12 @@ public interface RoleMapper {
 	 * @return
 	 */
 	public boolean addRoleToDept(RoleToDept roleDept);
+
+	/**
+	 * 通过角色名字查找所有用户列表
+	 * 
+	 * @param roleName
+	 * @return
+	 */
+	public List<Long> getUserIdListByRoleName(String roleName);
 }

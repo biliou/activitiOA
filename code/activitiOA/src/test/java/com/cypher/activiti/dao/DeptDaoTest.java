@@ -58,7 +58,7 @@ public class DeptDaoTest {
 	public void testGetDeptById() {
 		Dept dept = deptMapper.getDeptInfoById(1L);
 		Long deptId = 0L;
-		assertEquals(dept.getName(), "潭州学院");
+		assertEquals(dept.getName(), "xx学院");
 		assertEquals(dept.getParentId(), deptId);
 		assertEquals(dept.getCode(), "100000");
 	}

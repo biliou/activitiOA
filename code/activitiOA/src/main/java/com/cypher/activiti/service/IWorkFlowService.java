@@ -4,10 +4,13 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
+import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Comment;
+import org.activiti.engine.task.Task;
 
 public interface IWorkFlowService {
 	/**
@@ -68,8 +71,68 @@ public interface IWorkFlowService {
 
 	/**
 	 * 获取流程实例任务执行结点信息
+	 * 
 	 * @param processInstanceId
 	 * @return
 	 */
 	public ActivityImpl getActivitiCoordinate(String processInstanceId);
+
+	/**
+	 * 通过处理人的名字获取他的所有任务信息
+	 * 
+	 * @param assingnee
+	 * @return
+	 */
+	public List<Task> getTaskListByAssignee(String assignee);
+
+	/**
+	 * 通过任务id获取任务对象信息
+	 * 
+	 * @param taskId
+	 * @return
+	 */
+	public Task getTaskById(String taskId);
+
+	/**
+	 * 根据流程实例id获取流程实例对象
+	 * 
+	 * @param ProcessInstanceId
+	 * @return
+	 */
+	public ProcessInstance getProcessInstanceById(String processInstanceId);
+
+	/**
+	 * 根据任务id获取对应任务的明细页面处理url
+	 * 
+	 * @param taskId
+	 * @return
+	 */
+	public String getTaskFormKeyByTaskId(String taskId);
+
+	/**
+	 * 通过任务id 获取当前任务完成以后的连线信息
+	 * 
+	 * @param taskId
+	 * @return
+	 */
+	public List<PvmTransition> getOutcomeListByTaskId(String taskId);
+
+	/**
+	 * 通过任务id 获取流程实例ID获取整个流程实例的评论
+	 * 
+	 * @param taskId
+	 * @return
+	 */
+	public List<Comment> getCommentListByTaskId(String taskId);
+
+	/**
+	 * 任务处理
+	 * 
+	 * @param taskId
+	 * @param outcome
+	 * @param commentMsg
+	 * @param userName
+	 * @return
+	 */
+	public boolean completeTask(String taskId, String outcome, String commentMsg, String userName);
 }

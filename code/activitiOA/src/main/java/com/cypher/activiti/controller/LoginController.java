@@ -59,9 +59,7 @@ public class LoginController {
 		// 验证参数
 		if (StringUtils.isNotEmpty(loginName) && StringUtils.isNoneEmpty(password)) {
 			if (user != null) {
-				logger.info("登录用户名 = " + loginName);
-				logger.info("登录成功");
-
+				
 				session.setAttribute("user", user);
 				return "redirect:main";
 				// return new Response().success(model);

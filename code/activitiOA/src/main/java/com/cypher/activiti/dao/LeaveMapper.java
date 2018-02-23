@@ -55,13 +55,22 @@ public interface LeaveMapper {
 	 * @return
 	 */
 	public boolean updateLeaveState(Long leaveId, Integer state);
-	
+
 	/**
 	 * 请假单与请假流程实例绑定
+	 * 
 	 * @param leaveId
-	 * @param remark
+	 * @param processInstanceId
 	 * @return
 	 */
-	public boolean updateLeaveProcessInstanceId(Long leaveId,String processInstanceId);
+	public boolean updateLeaveProcessInstanceId(Long leaveId, String processInstanceId);
+
+	/**
+	 * 通过流程实例id获取请假单信息
+	 * 
+	 * @param processInstanceId
+	 * @return
+	 */
+	public LeaveBean getLeaveBeanByProcessInstanceId(String processInstanceId);
 
 }

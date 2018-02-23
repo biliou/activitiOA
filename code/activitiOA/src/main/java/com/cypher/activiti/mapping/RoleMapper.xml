@@ -175,19 +175,31 @@
 
 	<!--增加角色菜单对应关系 -->
 	<insert id="addRoleToMenu" parameterType="roleToMenu">
-		INSERT INTO PM_SYS_ROLE_MENU(ROLE_ID,MENU_ID)
+		INSERT INTO
+		PM_SYS_ROLE_MENU(ROLE_ID,MENU_ID)
 		VALUES(#{roleId},#{menuId})
 	</insert>
-	
+
 	<!--增加角色部门对应关系 -->
 	<insert id="addRoleToDept" parameterType="roleToDept">
-		INSERT INTO PM_SYS_ROLE_DEPT(ROLE_ID,DEPT_ID)
+		INSERT INTO
+		PM_SYS_ROLE_DEPT(ROLE_ID,DEPT_ID)
 		VALUES(#{roleId},#{deptId})
 	</insert>
-	
+
 	<!--增加角色区域对应关系 -->
 	<insert id="addRoleToArea" parameterType="roleToArea">
-		INSERT INTO PM_SYS_ROLE_AREA(ROLE_ID,AREA_ID)
+		INSERT INTO
+		PM_SYS_ROLE_AREA(ROLE_ID,AREA_ID)
 		VALUES(#{roleId},#{areaId})
 	</insert>
+
+	<!-- 通过角色名字查找所有用户列表 -->
+	<select id="getUserIdListByRoleName" parameterType="string" resultType="long">
+		SELECT A.user_id
+		FROM pm_sys_user A,
+		pm_sys_user_role B, pm_sys_role C
+		where A.user_id = B.user_id and
+		B.role_id = C.id and C.name = #{roleName}
+	</select>
 </mapper>

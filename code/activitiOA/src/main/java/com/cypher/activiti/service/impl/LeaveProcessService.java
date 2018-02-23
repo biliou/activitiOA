@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -15,6 +16,7 @@ import com.cypher.activiti.dao.DictMapper;
 import com.cypher.activiti.dao.LeaveMapper;
 import com.cypher.activiti.dao.UserMapper;
 import com.cypher.activiti.dto.LeaveBean;
+import com.cypher.activiti.dto.UserDto;
 import com.cypher.activiti.model.User;
 import com.cypher.activiti.service.ILeaveProcessService;
 import com.cypher.activiti.service.IWorkFlowService;
@@ -26,8 +28,6 @@ public class LeaveProcessService implements ILeaveProcessService {
 	private LeaveMapper leaveMapper;
 	@Autowired
 	private UserMapper userMapper;
-	@Autowired
-	private DictMapper dictMapper;
 	@Autowired
 	private IWorkFlowService workFlowService;
 
@@ -46,6 +46,9 @@ public class LeaveProcessService implements ILeaveProcessService {
 			}
 			if (leaveBean.getLeaveState().intValue() == 1) {
 				leaveBean.setLeaveStateDesc("审核中");
+			}
+			if (leaveBean.getLeaveState().intValue() == 2) {
+				leaveBean.setLeaveStateDesc("审核完成");
 			}
 
 		}
@@ -86,7 +89,8 @@ public class LeaveProcessService implements ILeaveProcessService {
 	 * 3.根据流程定义的key启动流程实例<br/>
 	 * 1>将表单数据与流程实例用流程变量关联 <br/>
 	 * 2>获取当前的操作用户，设置下一步处理人的流程变量 <br/>
-	 * 3>启动流程变量 4.绑定流程实例与请假表记录
+	 * 3>启动流程变量 <br/>
+	 * 4.绑定流程实例与请假表记录
 	 */
 	@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
 	public boolean doLeaveProcess(Long leaveId, Long userId) {
@@ -109,10 +113,37 @@ public class LeaveProcessService implements ILeaveProcessService {
 		ProcessInstance processInstance = workFlowService.startProcess(leaveProcessKey, businessKey, variables);
 
 		// 绑定流程实例与请假表记录
-		String processInstanceId = processInstance.getProcessInstanceId();
-		flag = leaveMapper.updateLeaveProcessInstanceId(leaveId, processInstanceId);
+		 String processInstanceId = processInstance.getProcessInstanceId();
+		 flag = leaveMapper.updateLeaveProcessInstanceId(leaveId, processInstanceId);
 
 		return flag;
+	}
+
+	/**
+	 * 1.通过taskId获取该流程实例id<br/>
+	 * 2.根据流程实例id找到流程实例对象<br/>
+	 * 3.流程实例对象解析出bussinessKey<br/>
+	 * 4.根据biussine_key 获取请假单对象
+	 */
+	public LeaveBean getLeaveBeanByTaskId(String taskId) {
+		// 1.通过taskId获取该流程实例id
+		Task task = workFlowService.getTaskById(taskId);
+		String processInstanceId = task.getProcessInstanceId();
+
+		// 2.根据流程实例id找到流程实例对象
+		ProcessInstance processInstance = workFlowService.getProcessInstanceById(processInstanceId);
+
+		// 3.流程实例对象解析出bussinessKey
+		String businessKey = processInstance.getBusinessKey();
+		String leaveId = businessKey.split("\\.")[1];
+
+		// 4.根据biussine_key 获取请假单对象
+		LeaveBean leaveBean = leaveMapper.getLeaveProcessByLeaveId(new Long(leaveId));
+
+		// 获取请假人
+		UserDto userDto = userMapper.getUserInfoById(leaveBean.getLeaveUserId());
+		leaveBean.setLeaveUserName(userDto.getUserName());
+		return leaveBean;
 	}
 
 }

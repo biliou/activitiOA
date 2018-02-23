@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.alibaba.fastjson.JSON;
 import com.cypher.activiti.model.Role;
 import com.cypher.activiti.model.RoleToArea;
 import com.cypher.activiti.model.RoleToDept;
@@ -52,8 +53,6 @@ public class RoleDaoTest {
 		List<Role> roleList = roleMapper.getAllRoleInfo();
 		int len = roleList.size();
 		assertThat(len, greaterThan(0));
-		assertEquals(len, 1);
-
 	}
 
 	/**
@@ -117,7 +116,7 @@ public class RoleDaoTest {
 	 */
 	@Test
 	public void testDelRoleToMenu() {
-		Long testRoleId = 2L;
+		Long testRoleId = 4L;
 
 		// 添加一个角色菜单关联信息
 		RoleToMenu roleToMenuTest1 = new RoleToMenu();
@@ -148,7 +147,7 @@ public class RoleDaoTest {
 	 */
 	@Test
 	public void testDelRoleToDept() {
-		Long testRoleId = 2L;
+		Long testRoleId = 4L;
 
 		// 添加一个角色部门关联信息
 		RoleToDept roleToDeptTest1 = new RoleToDept();
@@ -179,7 +178,7 @@ public class RoleDaoTest {
 	 */
 	@Test
 	public void testDelRoleToArea() {
-		Long testRoleId = 2L;
+		Long testRoleId = 4L;
 
 		// 添加一个角色区域关联信息
 		RoleToArea roleToAreaTest1 = new RoleToArea();
@@ -229,7 +228,7 @@ public class RoleDaoTest {
 	 */
 	@Test
 	public void testAddRoleToMenuBatch() {
-		Long testRoleId = 2L;
+		Long testRoleId = 4L;
 
 		// 添加一个角色菜单关联信息
 		RoleToMenu roleToMenuTest1 = new RoleToMenu();
@@ -260,7 +259,7 @@ public class RoleDaoTest {
 	 */
 	@Test
 	public void testAddRoleToDeptBatch() {
-		Long testRoleId = 2L;
+		Long testRoleId = 4L;
 
 		// 添加一个角色部门关联信息
 		RoleToDept roleToDeptTest1 = new RoleToDept();
@@ -291,7 +290,7 @@ public class RoleDaoTest {
 	 */
 	@Test
 	public void testaddRoleToAreaBatch() {
-		Long testRoleId = 2L;
+		Long testRoleId = 4L;
 
 		// 添加一个角色区域关联信息
 		RoleToArea roleToAreaTest1 = new RoleToArea();
@@ -363,7 +362,7 @@ public class RoleDaoTest {
 	@Test
 	public void testDelUserRoleByUserId() {
 		// 添加用户与角色关联信息
-		Long addUserId = 2L;
+		Long addUserId = 4L;
 		List<UserToRole> userToRoleList = new ArrayList<UserToRole>();
 
 		UserToRole userToRole1 = new UserToRole();
@@ -394,7 +393,7 @@ public class RoleDaoTest {
 	@Test
 	public void testAddRoleToMenu() {
 		// 添加角色菜单关联信息
-		Long roleId = 2L;
+		Long roleId = 4L;
 		RoleToMenu roleMenu = new RoleToMenu();
 		roleMenu.setRoleId(roleId);
 		roleMenu.setMenuId(2L);
@@ -416,7 +415,7 @@ public class RoleDaoTest {
 	@Test
 	public void testAddRoleToDept() {
 		// 添加角色菜单关联信息
-		Long roleId = 2L;
+		Long roleId = 4L;
 		RoleToDept roleDept = new RoleToDept();
 		roleDept.setRoleId(roleId);
 		roleDept.setDeptId(2L);
@@ -438,7 +437,7 @@ public class RoleDaoTest {
 	@Test
 	public void testAddRoleToArea() {
 		// 添加角色菜单关联信息
-		Long roleId = 2L;
+		Long roleId = 4L;
 		RoleToArea roleArea = new RoleToArea();
 		roleArea.setRoleId(roleId);
 		roleArea.setAreaId(2L);
@@ -452,6 +451,22 @@ public class RoleDaoTest {
 		// 查看是否存在关联信息
 		roleToAreaListResult = roleMapper.getAreaListByRoleId(roleId);
 		assertEquals(roleToAreaListResult.size(), 0);
+	}
+
+	/**
+	 * 测试通过角色名字查找所有用户列表
+	 */
+	@Test
+	public void testGetUserIdListByRoleName() {
+
+		// 查看是否通过角色名字查找所有用户列表
+		List<Long> userIdList = roleMapper.getUserIdListByRoleName("部门主管");
+		assertEquals(userIdList.size(), 1);
+		assertEquals(userIdList.get(0).intValue(), 2);
+		
+		userIdList = roleMapper.getUserIdListByRoleName("部门经理");
+		assertEquals(userIdList.size(), 1);
+		assertEquals(userIdList.get(0).intValue(), 3);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.cypher.activiti.cfg.activiti;
 
+import org.activiti.engine.FormService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
@@ -38,10 +39,11 @@ public class SpringActivitiEngineTest {
 		System.out.println(deployment.getId());
 		System.out.println(deployment.getName());
 	}
-	
-	@Test
-	public void testRepositoryService() {
-		RepositoryService repositoryService = (RepositoryService) ac.getBean("repositoryService");
-		System.out.println(repositoryService);
+
+
+	@Ignore
+	public void testFormService() {
+		FormService formService = (FormService) ac.getBean("formService");
+		System.out.println(formService);
 	}
 }

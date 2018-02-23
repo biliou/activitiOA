@@ -24,7 +24,7 @@ import com.cypher.activiti.service.impl.UserService;
 @WebAppConfiguration
 @ContextConfiguration(locations = { "classpath:springmvc/mvc-dispatcher-servlet.xml",
 		"classpath:springmvc/spring-mybatis.xml" })
-public class TestUserService {
+public class UserServiceTest {
 
 	private User userTest;
 	private User userAdmin;
