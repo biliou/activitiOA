@@ -1,0 +1,7 @@
+1.有三个用户
+超级管理员账号：admin  密码：123
+部门主管：test1 密码：123
+部门经理：test2 密码：123
+
+2.acitiviti数据库可以使用
+test文件夹下的cfg\activiti\ActivitiGenerateTest.java 来生成数据库表
