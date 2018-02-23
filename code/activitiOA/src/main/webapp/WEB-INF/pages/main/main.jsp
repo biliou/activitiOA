@@ -136,7 +136,7 @@
 				</div>
 			</div>
 		    <div id="footer" class="row-fluid">
-				Copyright © 2015-2025 <a href="http://www.tanzhouedu.com/" target="_blank">潭州OA管理系统</a> - Powered By tz V1.0
+				Copyright © 20xx-20xx OA管理系统
 			</div>
 		</div>
 	</div>
