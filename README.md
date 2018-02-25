@@ -16,3 +16,6 @@ com.cypher.activiti.service.impl - 处理业务逻辑实现类<br/>
 com.cypher.activiti.util - 工具类<br/>
 com.cypher.activiti.vo - 视图模型层<br/>
 
+项目代码所在目录：\code\activitiOA （目前使用jsp做前端显示，未做前后端分离）
+数据库初始化文件所在目录：\doc\初始化数据库表
+activiti 数据库初始化：运行com.cypher.activiti.cfg.activiti.ActivitiGenerateTest 下方法testActivitiEngineFromResource即可
