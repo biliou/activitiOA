@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.alibaba.fastjson.JSON;
 import com.cypher.activiti.model.Area;
 import com.cypher.activiti.model.AreaTree;
 
@@ -154,6 +155,7 @@ public class AreaDaoTest {
 	@Test
 	public void testGetChildByPidResultMap() {
 		Area area = areaMapper.getChildByPidResultMap(1L);
+//		System.out.println(JSON.toJSON(area));
 		assertEquals(area, null);
 	}
 
@@ -162,7 +164,7 @@ public class AreaDaoTest {
 	 */
 	@Test
 	public void testGetAllChildByPidResultMap() {
-		AreaTree areaTree = areaMapper.GetAllChildByPidResultMap();
+		AreaTree areaTree = areaMapper.getAllChildByPidResultMap();
 //		System.out.println(JSON.toJSONString(areaTree));
 		Long areaId = 0L;
 		assertEquals(areaTree.getChileAreaList().size(), 0);

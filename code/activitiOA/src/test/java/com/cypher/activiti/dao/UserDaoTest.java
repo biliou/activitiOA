@@ -93,6 +93,7 @@ public class UserDaoTest {
 	@Test
 	public void testGetUserInfoById() {
 		UserDto userDto = userMapper.getUserInfoById(1L);
+//		System.out.println(JSON.toJSON(userDto));
 		assertEquals(userDto.getUserName(), userAdmin.getUserName());
 		assertEquals(userDto.getLoginName(), userAdmin.getLoginName());
 	}
@@ -220,6 +221,14 @@ public class UserDaoTest {
 		assertEquals(userRoleList.size(), 1);
 		Long roleId = 1l;
 		assertEquals(userRoleList.get(0).getRoleId(), roleId);
+	}
+
+	// 测试根据用户id查询用户所拥有的角色和角色名
+	@Test
+	public void testGetUserRoleNameListByUserId() {
+		List<String> userRoleNameList = userMapper.getUserRoleNameListByUserId(1L);
+		// System.out.println(JSON.toJSONString(userRoleNameList));
+		assertEquals(userRoleNameList.size(), 1);
 	}
 
 }

@@ -31,6 +31,7 @@
 					$("#phone").val(data.phone);
 					$("#mobile").val(data.mobile);
 					$("#remarks").val(data.remarks);
+					$("#roleNameList").html(data.roleNameList.toString());
 				}
 			});
 		},
@@ -128,7 +129,7 @@
 		<div class="control-group">
 			<label class="control-label">用户角色:</label>
 			<div class="controls">
-				<label class="lbl">公司管理员,系统管理员</label>
+				<label class="lbl"><div id="roleNameList"></div></label>
 			</div>
 		</div>
 

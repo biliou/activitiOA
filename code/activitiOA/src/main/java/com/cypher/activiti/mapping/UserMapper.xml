@@ -30,19 +30,26 @@
 			<include refid="query_user_sql_where"></include>
 		</where>
 	</select>
+	
+	<resultMap type="userDto" id="userDtoMap">
+		<collection property="roleNameList" javaType="java.util.ArrayList" 
+		ofType="String" column="USER_ID" select="getUserRoleNameListByUserId">
+		</collection>
+	</resultMap>
 
 	<!--根据用户id查询 用户信息 -->
-	<select id="getUserInfoById" parameterType="long" resultType="userDto">
+	<select id="getUserInfoById" parameterType="long" resultMap="userDtoMap">
 		SELECT
 
 		A.USER_ID,A.DEPT_ID,A.LOGIN_NAME,A.PASSWORD,
 		A.USER_NO,A.USER_NAME,A.EMAIL,A.PHONE,A.MOBILE,
 		A.UPDATE_BY,A.UPDATE_DATE,A.REMARKS,B.NAME DEPT_NAME
 
-		FROM PM_SYS_USER
-		A,PM_SYS_DEPT B
+		FROM PM_SYS_USER A,
+		PM_SYS_DEPT B
 
-		WHERE A.USER_ID=#{userId} AND A.DEPT_ID = B.ID
+		WHERE A.USER_ID=#{userId} 
+		AND A.DEPT_ID = B.ID 
 	</select>
 
 	<!--保存用户修改密码 -->
@@ -139,4 +146,11 @@
 		</set>
 		WHERE USER_ID = #{userId}
  	</update>
+ 	
+ 	<!-- 根据用户id查询用户所拥有的角色和角色名 -->
+	<select id="getUserRoleNameListByUserId" parameterType="long" resultType="String"> 
+		 SELECT r.NAME
+		 FROM PM_SYS_USER_ROLE ur,PM_SYS_ROLE r 
+		 WHERE ur.USER_ID=#{userId} and ur.ROLE_ID =r.id
+	</select>
 </mapper>

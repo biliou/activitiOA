@@ -64,9 +64,8 @@ public interface AreaMapper {
 	/**
 	 * 查询某区域下的所有子节点 (自关联)
 	 * 
-	 * @param areaId
 	 * @return
 	 */
-	public AreaTree GetAllChildByPidResultMap();
+	public AreaTree getAllChildByPidResultMap();
 
 }

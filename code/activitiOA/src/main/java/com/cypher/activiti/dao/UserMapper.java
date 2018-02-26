@@ -82,4 +82,13 @@ public interface UserMapper {
 	 * @return
 	 */
 	public List<UserToRole> getUserRoleByUserId(Long userId);
+	
+	/**
+	 * 
+	 * 根据用户id查询用户所拥有的角色和角色名
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public List<String> getUserRoleNameListByUserId(Long userId);
 }
